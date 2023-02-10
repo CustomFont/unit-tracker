@@ -4,8 +4,8 @@
  */
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
+  await knex('soldier_data').del()
+  await knex('soldier_data').insert([
     {id: 1,
       DODID: 1544788852,
       last_four_SSN: 8877,
