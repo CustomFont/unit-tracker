@@ -6,18 +6,21 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev.sqlite3'
+    client: "pg",
+    connection: "postgres://postgres:docker@142.93.182.171:5432/unit_tracker",
+    migrations: {
+      tableName: 'knex_migrations'
     }
   },
 
   staging: {
-    client: 'postgresql',
+    client: "pg",
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host: "142.93.182.171",
+      port: 5432,
+      database: "unit_tracker",
+      user: "postgres",
+      password: "docker",
     },
     pool: {
       min: 2,
