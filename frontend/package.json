@@ -7,9 +7,17 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
+<<<<<<< HEAD
+=======
+    "browser-router": "^0.2.0",
+    "cypress": "^12.5.1",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.20",
+>>>>>>> 70758f50b4bf919d6e0932d7fe2611bceee2f6ca
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "supertest": "^6.3.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
