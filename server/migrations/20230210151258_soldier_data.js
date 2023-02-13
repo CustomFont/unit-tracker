@@ -22,7 +22,7 @@ exports.up = function (knex) {
 		table.string("blood_type", 255).notNullable();
 		table.integer("phone_number", 10).notNullable();
 		table.string("address", 255).notNullable();
-		table.boolean("is_leader", false);
+		table.boolean("is_leader").defaultTo(false);
 		table.timestamp('created_at').defaultTo(knex.fn.now());
 	});
 };
