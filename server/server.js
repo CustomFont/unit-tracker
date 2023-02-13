@@ -9,21 +9,26 @@ const knex = require('knex')(config['development']);
 
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
+
+// establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
 const store = new KnexSessionStore({
   knex,
   tablename: 'sessions', // optional. Defaults to 'sessions'
 });
+// options for session
 app.use(session({
   secret: 'keyboard cat',
-  genid: function(req) {
-    return genuuid() // use UUIDs for session IDs
-  },
   resave: false,
   saveUninitialized: false,
   cookie: { secure: true, maxAge: 60000  },
   store
 }))
+// middleware
+app.use((req, res, next) => {
+    console.log(store.all)
+    next();
+})
 
 // app.use(cors({
 //     credentials: true, // important part here
