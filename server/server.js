@@ -3,7 +3,7 @@ var cors = require('cors');
 var session = require('express-session')
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 const config = require('./knexfile.js')
 const knex = require('knex')(config['development']);
 
@@ -21,12 +21,12 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true, maxAge: 60000  },
+  cookie: { secure: false, maxAge: 60000  },
   store
 }))
 // middleware
 app.use((req, res, next) => {
-    console.log(store.all)
+    // console.log(store)
     next();
 })
 
@@ -36,8 +36,25 @@ app.use((req, res, next) => {
 //     optionsSuccessStatus: 200
 // }));
 //---------------Credentials----------------//
-app.post('/login', (req, res) => {
-    
+app.post('/login', async (req, res) => {
+    if (req.body.DODID && req.body.last_four_SSN){
+        let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
+        if (DBdodid[0]){
+            DBdodid = DBdodid[0].DODID;
+            if (DBdodid === req.body.DODID){
+                let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
+                if (req.body.last_four_SSN === DBlastFour[0].last_four_SSN){
+                    req.session.authenticated = true;
+                    console.log(req.session.authenticated)
+                    res.status(200).send('login successful')
+                } else {
+                    res.status(500).send('Last four SSN incorrect')
+                }
+            }
+        } else {
+            res.status(500).send('DOD is not registered')
+        }
+    }
 })
 //---------------Soldier Data---------------//
 //get all users
