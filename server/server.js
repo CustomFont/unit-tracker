@@ -1,46 +1,51 @@
 const express = require('express');
-var cookieParser = require('cookie-parser');
 var cors = require('cors');
+var session = require('express-session')
 
 const app = express();
 const port = process.env.PORT || 8080;
 const config = require('./knexfile.js')
 const knex = require('knex')(config['development']);
 
-// var sessionChecker = (req, res, next) => {    
-//     console.log(`Session Checker: ${req.session.id}`.green);
-//     console.log(req.session);
-//     if (req.session.profile) {
-//         console.log(`Found User Session`.green);
-//         next();
-//     } else {
-//         console.log(`No User Session Found`.red);
-//         // res.redirect('/login');
-//     }
-// };
-
 app.use(express.json());
-app.use(cookieParser());
 app.set('trust proxy', 1) // trust first proxy
-// app.use(session({
-//   secret: 'keyboard cat',
-//   genid: function(req) {
-//     return genuuid() // use UUIDs for session IDs
-//   },
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { secure: true, maxAge: 60000  }
-// }))
+const KnexSessionStore = require('connect-session-knex')(session);
+const store = new KnexSessionStore({
+  knex,
+  tablename: 'sessions', // optional. Defaults to 'sessions'
+});
+app.use(session({
+  secret: 'keyboard cat',
+  genid: function(req) {
+    return genuuid() // use UUIDs for session IDs
+  },
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true, maxAge: 60000  },
+  store
+}))
+
 // app.use(cors({
 //     credentials: true, // important part here
 //     origin: 'http://localhost:3000',
 //     optionsSuccessStatus: 200
 // }));
-
+//---------------Credentials----------------//
+app.post('/login', (req, res) => {
+    
+})
 //---------------Soldier Data---------------//
-//get all for alert roster
+//get all users
 app.get('/users', (req, res) => {
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
+})
+
+//get all for alert roster (pulls rank, name, phone number from all associated with that company id)
+app.get('/alertroster/:company_id', (req, res) => {
+    let idParam = parseInt(req.params.company_id);
+    if (Number.isInteger(idParam)){
+    knex('soldier_data').select('rank', 'last_name', 'first_name', 'phone_number').where({company_id: idParam}).then(data => res.send(data))
+    }
 })
 
 //get all by company_id
