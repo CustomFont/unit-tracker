@@ -26,7 +26,8 @@ app.use(session({
 }))
 // middleware
 app.use((req, res, next) => {
-    // console.log(store)
+    console.log(req.session.id)
+
     next();
 })
 
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 //     optionsSuccessStatus: 200
 // }));
 //---------------Credentials----------------//
-app.post('/login', async (req, res) => {
+app.post('/login', async (req, res, next) => {
     if (req.body.DODID && req.body.last_four_SSN){
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
@@ -45,13 +46,15 @@ app.post('/login', async (req, res) => {
                 let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
                 if (req.body.last_four_SSN === DBlastFour[0].last_four_SSN){
                     req.session.authenticated = true;
-                    console.log(req.session.authenticated)
+                    // console.log(req.session.authenticated)
                     res.status(200).send('login successful')
                 } else {
+                    req.session.authenticated = false;
                     res.status(500).send('Last four SSN incorrect')
                 }
             }
         } else {
+            req.session.authenticated = false;
             res.status(500).send('DOD is not registered')
         }
     }
