@@ -14,14 +14,14 @@ app.set('trust proxy', 1) // trust first proxy
 const KnexSessionStore = require('connect-session-knex')(session);
 const store = new KnexSessionStore({
   knex,
-  tablename: 'sessions', // optional. Defaults to 'sessions'
+  tablename: 'sessions',
 });
 // options for session
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false, maxAge: 60000  },
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 120000  },
   store
 }))
 // middleware
@@ -31,11 +31,6 @@ app.use((req, res, next) => {
     next();
 })
 
-// app.use(cors({
-//     credentials: true, // important part here
-//     origin: 'http://localhost:3000',
-//     optionsSuccessStatus: 200
-// }));
 //---------------Credentials----------------//
 app.post('/login', async (req, res, next) => {
     if (req.body.DODID && req.body.last_four_SSN){
@@ -61,8 +56,18 @@ app.post('/login', async (req, res, next) => {
 })
 //---------------Soldier Data---------------//
 //get all users
-app.get('/users', (req, res) => {
-    knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
+app.get('/users', async (req, res, next) => {
+    let currentAuth = await knex('sessions').select('sess').where({"sid": req.session.id})
+    if(currentAuth.length != []){
+        currentAuth = currentAuth[0].sess.authenticated;
+        if (currentAuth){
+            knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
+        } else {
+            res.status(403).send('Bad Credentials')
+        }
+    } else {
+        res.status(403).send('Bad Credentials')
+    }
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)

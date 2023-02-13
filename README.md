@@ -9,6 +9,8 @@ Companies are wasting entire days playing tag and bringing people into offices o
 - knex
 - Node.js
 - bootstrap css
+- Express-session-knex
+- express-sessions 
 
 # Use
  cd into each directory and npm start
