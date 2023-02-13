@@ -4,8 +4,7 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 module.exports = {
-
-  development: {
+	development: {
     client: "pg",
     connection: "postgres://postgres:docker@142.93.182.171:5432/unit_tracker",
     migrations: {
@@ -47,4 +46,4 @@ module.exports = {
     }
   }
 
-};
+	
