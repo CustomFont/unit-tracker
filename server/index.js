@@ -9,15 +9,10 @@ const app = express();
 const port = 4000;
 app.use(cors());
 
-https
-  .createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem'),
-  }, app)
 
-  .listen(port, () => { 
-    console.log(`server is running at port ${port}`)
-  });
+app.listen(port, () => {
+	console.log('Server running')
+})
 
 app.get('/', (req,res)=>{
     res.send("Should be running on HTTPS")
