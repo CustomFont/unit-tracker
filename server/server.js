@@ -3,40 +3,73 @@ var cors = require('cors');
 var session = require('express-session')
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 const config = require('./knexfile.js')
 const knex = require('knex')(config['development']);
 
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
+
+// establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
 const store = new KnexSessionStore({
   knex,
-  tablename: 'sessions', // optional. Defaults to 'sessions'
+  tablename: 'sessions',
 });
+// options for session
 app.use(session({
-  secret: 'keyboard cat',
-  genid: function(req) {
-    return genuuid() // use UUIDs for session IDs
-  },
+  secret: 'supersecretsecretthatisverysecret',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true, maxAge: 60000  },
+  saveUninitialized: true,
+  cookie: { secure: false, maxAge: 120000  },
   store
 }))
 
-// app.use(cors({
-//     credentials: true, // important part here
-//     origin: 'http://localhost:3000',
-//     optionsSuccessStatus: 200
-// }));
+// use if else syntax to make middleware ignore specific routes 
+app.use(async (req, res, next) => {
+    if (req.path === '/login' && req.method === 'POST') {
+        req.session.authenticated = false;
+        next();
+    } else {
+        let authenticationStatus = req.session.authenticated;
+        if(authenticationStatus){
+            next();
+        } else {
+            res.status(403).send('Bad Credentials')
+            return
+        }
+    }
+})
+
 //---------------Credentials----------------//
-app.post('/login', (req, res) => {
-    
+app.post('/login', async (req, res) => {
+    if (req.body.DODID && req.body.last_four_SSN){
+        let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
+        if (DBdodid[0]){
+            DBdodid = DBdodid[0].DODID;
+            if (DBdodid === req.body.DODID){
+                let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
+                if (req.body.last_four_SSN === DBlastFour[0].last_four_SSN){
+                    req.session.authenticated = true;
+                    res.status(200).send('login successful')
+                } else {
+                    req.session.authenticated = false;
+                    res.status(500).send('Last four SSN incorrect')
+                }
+            }
+        } else {
+            req.session.authenticated = false;
+            res.status(500).send('DOD is not registered')
+        }
+    }
+})
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.status(200).send('Logout Successful')
 })
 //---------------Soldier Data---------------//
 //get all users
-app.get('/users', (req, res) => {
+app.get('/users', async (req, res, next) => {
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 
@@ -60,10 +93,8 @@ app.get('/users/:company_id', (req, res) => {
 
 //soldier makes a new record
 app.post('/users', async (req, res) => {
-    await knex('soldier_data').insert(req.body)
-    res.clearCookie('DODID')
-    res.cookie('DODID', { 'DODID': await knex('soldier_data').where({'DODID': req.body.DODID}) })
-    res.status(201).send('New user added.')
+    await knex('soldier_data').insert(req.body);
+    res.status(201).send('New user added.');
 })
 
 //patch soldier data

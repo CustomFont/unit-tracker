@@ -15,10 +15,12 @@ Companies are wasting entire days playing tag and bringing people into offices o
 -Node.js 
  ![bootstrap5 resize](https://user-images.githubusercontent.com/117850494/218570494-601aeb4c-645d-4776-8c69-dbd09b27d1b5.jpg)
 -bootstrap css 
+- Express-session-knex
+- express-sessions 
 
 # Use
  cd into each directory and npm start
- -ssh root@142.93.182.171
+- ssh root@142.93.182.171
 - docker ps -a plug current container into #3.
 - docker exec -it <> bash
 - psql -U postgres unit_tracker
