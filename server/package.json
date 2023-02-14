@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "set HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem&&nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

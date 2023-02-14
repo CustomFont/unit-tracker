@@ -1,10 +1,12 @@
-import './App.css';
+import './App.css'
+import Registration from './components/registration';
+import Splashpage from './components/splashpage';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
+      {/* <Splashpage /> */}
+      <Registration />
     </div>
   );
 }
