@@ -40,18 +40,14 @@ export default function Login() {
             </Button>
             <br />
             <br />
-            <LinkContainer to={<Registration />}>
                 <Button variant="success" type="button">
                     Registration
                 </Button>
-            </LinkContainer>
             <br />
             <br />
-            <LinkContainer to={<LeadersPortal />}>
                 <Button variant="danger" type="button">
                     Leaders' Portal
                 </Button>
-            </LinkContainer>
         </>
     )
 }
