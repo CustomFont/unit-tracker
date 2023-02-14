@@ -43,7 +43,28 @@ export default function Registration() {
                             <option>Some Other Unit</option>
                             <option>And Some Red Devil Baggy Pants Unit</option>
                         </Form.Select>
+                    <Form.Label>Platoon</Form.Label>
+                    <Form.Control type="text" placeholder="Platoon" />
+                    <Form.Label>PMOS</Form.Label>
+                    <Form.Control type="text" placeholder="Primary MOS" />
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control type="date" placeholder="Date of Birth" />
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control type="text" placeholder="Age" />
+                    <Form.Label>Weight</Form.Label>
+                    <Form.Control type="text" placeholder="Weight" />
+                    <Form.Label>Height</Form.Label>
+                    <Form.Control type="text" placeholder="Height in Centimeters" />
+                    <Form.Label>Blood Type</Form.Label>
+                    <Form.Control type="text" placeholder="Blood Type" />
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control type="text" placeholder="Phone number" />
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control type="text" placeholder="Address" />
                 </Form.Group>
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
             </Form>
                 </Col>
             </Row>

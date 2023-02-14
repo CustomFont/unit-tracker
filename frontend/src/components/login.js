@@ -1,8 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Registration from './registration';
-import { LinkContainer } from 'react-router-bootstrap';
-import LeadersPortal from './leadersportal';
+import {LinkContainer} from 'react-router-bootstrap'
 
 export default function Login() {
     return (
@@ -35,19 +33,25 @@ export default function Login() {
                 </Button>
             </Form>
             <br />
-            <Button variant="secondary" type="button">
-                Alert Roster
-            </Button>
+            <LinkContainer to='/alertroster'>
+                <Button variant="secondary" type="button">
+                    Alert Roster
+                </Button>
+            </LinkContainer>
             <br />
             <br />
+            <LinkContainer to='/registration'>
                 <Button variant="success" type="button">
                     Registration
                 </Button>
+            </LinkContainer>
             <br />
             <br />
+            <LinkContainer to='/leadersportal'>
                 <Button variant="danger" type="button">
                     Leaders' Portal
                 </Button>
+            </LinkContainer>
         </>
     )
 }
