@@ -18,21 +18,31 @@ const store = new KnexSessionStore({
 });
 // options for session
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'supersecretsecretthatisverysecret',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false, maxAge: 120000  },
   store
 }))
-// middleware
-app.use((req, res, next) => {
-    console.log(req.session.id)
 
-    next();
+// use if else syntax to make middleware ignore specific routes 
+app.use(async (req, res, next) => {
+    if (req.path === '/login' && req.method === 'POST') {
+        req.session.authenticated = false;
+        next();
+    } else {
+        let authenticationStatus = req.session.authenticated;
+        if(authenticationStatus){
+            next();
+        } else {
+            res.status(403).send('Bad Credentials')
+            return
+        }
+    }
 })
 
 //---------------Credentials----------------//
-app.post('/login', async (req, res, next) => {
+app.post('/login', async (req, res) => {
     if (req.body.DODID && req.body.last_four_SSN){
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
@@ -41,7 +51,6 @@ app.post('/login', async (req, res, next) => {
                 let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
                 if (req.body.last_four_SSN === DBlastFour[0].last_four_SSN){
                     req.session.authenticated = true;
-                    // console.log(req.session.authenticated)
                     res.status(200).send('login successful')
                 } else {
                     req.session.authenticated = false;
@@ -54,20 +63,14 @@ app.post('/login', async (req, res, next) => {
         }
     }
 })
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.status(200).send('Logout Successful')
+})
 //---------------Soldier Data---------------//
 //get all users
 app.get('/users', async (req, res, next) => {
-    let currentAuth = await knex('sessions').select('sess').where({"sid": req.session.id})
-    if(currentAuth.length != []){
-        currentAuth = currentAuth[0].sess.authenticated;
-        if (currentAuth){
-            knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
-        } else {
-            res.status(403).send('Bad Credentials')
-        }
-    } else {
-        res.status(403).send('Bad Credentials')
-    }
+    knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
@@ -90,10 +93,8 @@ app.get('/users/:company_id', (req, res) => {
 
 //soldier makes a new record
 app.post('/users', async (req, res) => {
-    await knex('soldier_data').insert(req.body)
-    res.clearCookie('DODID')
-    res.cookie('DODID', { 'DODID': await knex('soldier_data').where({'DODID': req.body.DODID}) })
-    res.status(201).send('New user added.')
+    await knex('soldier_data').insert(req.body);
+    res.status(201).send('New user added.');
 })
 
 //patch soldier data
