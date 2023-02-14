@@ -1,10 +1,11 @@
 const express = require('express');
 var cors = require('cors');
-var session = require('express-session')
+const bcrypt = require('bcrypt');
+var session = require('express-session');
 
 const app = express();
 const port = process.env.PORT || 8081;
-const config = require('./knexfile.js')
+const config = require('./knexfile.js');
 const knex = require('knex')(config['development']);
 
 app.use(express.json());
@@ -49,7 +50,8 @@ app.post('/login', async (req, res) => {
             DBdodid = DBdodid[0].DODID;
             if (DBdodid === req.body.DODID){
                 let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
-                if (req.body.last_four_SSN === DBlastFour[0].last_four_SSN){
+                let attemptPassword = await bcrypt.compare(req.body.last_four_SSN, DBlastFour[0].last_four_SSN)
+                if (attemptPassword === true){
                     req.session.authenticated = true;
                     res.status(200).send('login successful')
                 } else {
@@ -93,8 +95,18 @@ app.get('/users/:company_id', (req, res) => {
 
 //soldier makes a new record
 app.post('/users', async (req, res) => {
-    await knex('soldier_data').insert(req.body);
-    res.status(201).send('New user added.');
+    try{
+        bcrypt.hash(req.body.last_four_SSN, 10, function (err, hash) {
+            req.body.last_four_SSN = hash;
+            knex('soldier_data').insert(req.body)
+                .then(response => {
+                    res.status(201).send('New user added.')
+            })
+        })
+    } catch(e) {
+        console.log(e);
+        res.status(500).send('Something broke.')
+    }
 })
 
 //patch soldier data

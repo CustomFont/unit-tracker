@@ -6,7 +6,7 @@ exports.up = function (knex) {
 	return knex.schema.createTable("soldier_data", function (table) {
 		// table.increments("id");
 		table.integer("DODID", 10).notNullable();
-		table.integer("last_four_SSN", 4).notNullable();
+		table.string("last_four_SSN", 255).notNullable();
 		table.string("last_name", 255).notNullable();
 		table.string("first_name", 255).notNullable();
 		table.string("middle_initial", 1).notNullable();
