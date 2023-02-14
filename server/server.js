@@ -22,7 +22,7 @@ app.use(session({
   secret: 'supersecretsecretthatisverysecret',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, maxAge: 120000  },
+    cookie: { secure: false, maxAge: 300000  },
   store
 }))
 
