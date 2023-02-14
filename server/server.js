@@ -14,22 +14,23 @@ const store = new KnexSessionStore({
   knex,
   tablename: 'sessions', // optional. Defaults to 'sessions'
 });
-app.use(session({
-  secret: 'keyboard cat',
-  genid: function(req) {
-    return genuuid() // use UUIDs for session IDs
-  },
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true, maxAge: 60000  },
-  store
-}))
 
-// app.use(cors({
-//     credentials: true, // important part here
-//     origin: 'http://localhost:3000',
-//     optionsSuccessStatus: 200
-// }));
+// app.use(session({
+//   secret: 'keyboard cat',
+//   genid: function(req) {
+//     return genuuid() // use UUIDs for session IDs
+//   },
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { secure: true, maxAge: 60000  },
+//   store
+// }))
+
+app.use(cors({
+    credentials: true, // important part here
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}));
 //---------------Credentials----------------//
 app.post('/login', (req, res) => {
     
