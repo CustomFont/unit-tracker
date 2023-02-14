@@ -2,20 +2,22 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "set HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem&&nodemon index.js",
+    "start": "set HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem&&nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
+    "connect-session-knex": "^3.0.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "knex": "^2.4.2",
     "nodemon": "^2.0.20",
     "pg": "^8.9.0",
+    "postgres": "^3.3.3",
     "postgresql": "^0.0.1"
   }
 }
