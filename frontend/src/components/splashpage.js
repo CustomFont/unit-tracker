@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Form from './registration';
+import Login from './login';
 
 
 export default function Splashpage() {
@@ -14,7 +14,7 @@ export default function Splashpage() {
             <br />
             <Row>
                <Col xs={5} md={{ span: 4, offset: 4 }}>
-                <Form /> 
+                <Login /> 
                </Col> 
             </Row>
         </Container>
