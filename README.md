@@ -17,6 +17,7 @@ Companies are wasting entire days playing tag and bringing people into offices o
 -bootstrap css 
 - Express-session-knex
 - express-sessions 
+- dotenv (https://github.com/bkeepers/dotenv)
 
 # Use
  cd into each directory and npm start
