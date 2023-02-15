@@ -35,7 +35,7 @@ export default function Registration() {
     //     body: JSON.stringify(data)
     // };
     useEffect(() => {
-        fetch('http://localhost:8081/units')
+        fetch('http://localhost:8080/units')
             .then(response => response.json())
             .then(data => setCompanies(data))
     }, [])
