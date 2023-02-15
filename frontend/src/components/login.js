@@ -8,7 +8,16 @@ export default function Login() {
 
     const onFormSubmit = e => {
         e.preventDefault()
-        console.log(JSON.stringify(userLogin))
+        let stringifiedJSON = JSON.stringify(userLogin);
+        console.log(stringifiedJSON)
+        fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: stringifiedJSON,
+            withCredentials: true
+        }).then(res => console.log(res))
     }
 
     return (
