@@ -159,4 +159,25 @@ app.post('/register', async (req, res) => {
     })
 })
 
+// add unit with randomized regkey
+app.post('/addunit', (req, res) => {
+    const randomKey = () => {
+        let regKey = '';
+        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for (let i =0; i < 6; i++) {
+            regKey += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        console.log(regKey)
+        return regKey;
+    }
+    let random = randomKey();
+    req.body.registration_key = random
+    knex('company_data').insert(req.body)
+    .then(response => {
+        res.status(201).send('New unit added')
+    })
+    // loader.engine.document.getElementById(registration_key).setValue(({"value": random}))
+    // console.log(random)
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
