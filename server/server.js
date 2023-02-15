@@ -31,6 +31,9 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
+    } else if (req.path === '/users' && req.method === 'POST'){
+        req.session.authenticated = true;
+        next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
