@@ -14,10 +14,10 @@ Companies are wasting entire days playing tag and bringing people into offices o
 ![2560px-Node js_logo svg resize](https://user-images.githubusercontent.com/117850494/218570471-4aae1dcc-5341-4395-be6e-3be437bbbf0d.png)
 -Node.js 
  ![bootstrap5 resize](https://user-images.githubusercontent.com/117850494/218570494-601aeb4c-645d-4776-8c69-dbd09b27d1b5.jpg)
--bootstrap css 
-- Express-session-knex
+- bootstrap css 
+- express-session-knex
 - express-sessions 
-- dotenv (https://github.com/bkeepers/dotenv)
+- bcrypt
 
 # Use
  cd into each directory and npm start
