@@ -9,19 +9,19 @@ exports.up = function (knex) {
 		table.string("last_four_SSN", 255).notNullable();
 		table.string("last_name", 255).notNullable();
 		table.string("first_name", 255).notNullable();
-		table.string("middle_initial", 1).notNullable();
-		table.string("rank", 3).notNullable();
+		table.string("middle_initial", 1)
+		table.string("rank", 3)
 		table.integer('company_id');
 		table.foreign('company_id','company_id').references('company_data.id'); // yo mama
-		table.string("mos", 3).notNullable();
-		table.date("DOB").notNullable();
-		table.float("weight").notNullable();
-		table.integer("height").notNullable();
-		table.string("hair_color", 255).notNullable();
-		table.string("eye_color", 255).notNullable();
-		table.string("blood_type", 255).notNullable();
-		table.integer("phone_number", 10).notNullable();
-		table.string("address", 255).notNullable();
+		table.string("mos", 3)
+		table.date("DOB")
+		table.float("weight")
+		table.integer("height")
+		table.string("hair_color", 255)
+		table.string("eye_color", 255)
+		table.string("blood_type", 255)
+		table.integer("phone_number", 10)
+		table.string("address", 255)
 		table.boolean("is_leader").defaultTo(false);
 		table.timestamp('created_at').defaultTo(knex.fn.now());
 	});
