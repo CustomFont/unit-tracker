@@ -17,6 +17,13 @@ const store = new KnexSessionStore({
   knex,
   tablename: 'sessions',
 });
+
+app.use(cors({
+    credentials: true, // important part here
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}));
+
 // options for session
 app.use(session({
   secret: 'supersecretsecretthatisverysecret',
