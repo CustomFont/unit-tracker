@@ -3,7 +3,6 @@ const express = require('express');
 var cors = require('cors');
 const bcrypt = require('bcrypt');
 var session = require('express-session');
-console.log(process.env.SECRET)
 const app = express();
 const port = process.env.PORT || 8081;
 const config = require('./knexfile.js');
