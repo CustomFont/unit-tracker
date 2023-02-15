@@ -34,7 +34,7 @@ app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 300000  },
+    cookie: { secure: false, maxAge: 300000, sameSite: 'none' },
   store
 }))
 
@@ -46,6 +46,9 @@ app.use(async (req, res, next) => {
     } else if (req.path === '/units' && req.method === 'GET') {
         req.session.authenticated = false;
             next();
+    } else if (req.path === '/register') {
+        req.session.authenticated = true;
+        next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
@@ -63,12 +66,13 @@ app.post('/login', async (req, res) => {
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
             DBdodid = DBdodid[0].DODID;
-            if (DBdodid === req.body.DODID){
+            if (DBdodid == req.body.DODID){
                 let DBlastFour = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
                 if (attemptPassword === true){
                     req.session.authenticated = true;
-                    res.status(200).send('login successful')
+                    console.log('login made it through')
+                    res.status(200).send(req.session)
                 } else {
                     req.session.authenticated = false;
                     res.status(500).send('Last four SSN incorrect')
