@@ -4,21 +4,11 @@ import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
 
 export default function Login() {
-    const [SSN, setSSN] = useState('')
-    const [dodID, setDodID] = useState('')
-    const handleChange = (e) => {
-        e.preventDefault();
-        if (e.target.id === 'formBasicPassword'){
-            console.log(e.target.id)
-            setSSN(e.target.value)
-        } else if (e.target.id === 'formBasicDod'){
-            setDodID(e.target.value)
-        }
-    };
+    const [userLogin, setUserLogin] = useState({"DODID": undefined, "SSN": undefined})
+
     const onFormSubmit = e => {
         e.preventDefault()
-        let submitionData = JSON.stringify({ "DODID": dodID, "SSN": SSN })
-        console.log(submitionData)
+        console.log(JSON.stringify(userLogin))
     }
 
     return (
@@ -36,7 +26,7 @@ export default function Login() {
 
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
-                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={handleChange} value={dodID} />
+                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin=>({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
                     <Form.Text className="text-muted">
                     We'll never share your DOD ID with anyone else.
                     </Form.Text>
@@ -44,7 +34,7 @@ export default function Login() {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Social Security Number</Form.Label>
-                    <Form.Control type="password" placeholder="SSN" onChange={handleChange} value={SSN} />
+                    <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Login
