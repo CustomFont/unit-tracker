@@ -71,7 +71,6 @@ app.post('/login', async (req, res) => {
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
                 if (attemptPassword === true){
                     req.session.authenticated = true;
-                    console.log('login made it through')
                     res.status(200).send(req.session)
                 } else {
                     req.session.authenticated = false;
