@@ -1,20 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom'
 import './App.css';
-// import Login from './components/Login'
-// import Registration from './components/Regestration'
-// import UserData from './components/UserData'
-// import LeaderPortal from './components/LeaderPortal'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AlertRoster from './components/AlertRoster'
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        {/* <Route path='/' element={<Login />} />
-        <Route path='/registration' element={<Registration />} />
-        <Route path='/userdata' element={<UserData />} />
-        <Route path='/leaderportal' element={<LeaderPortal />} /> */}
         <Route path='/alertroster' element={<AlertRoster />} /> 
       </Routes>
     </div>

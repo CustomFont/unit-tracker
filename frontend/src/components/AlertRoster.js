@@ -10,10 +10,6 @@ export default function AlertRoster () {
             .then((res) => res.json())
             .then(data => setList(data))
         }, [])
-        console.log(list)
-    //create helper funtion for for loop
-        
-
 
     return (
         <div className="alert-container">
@@ -21,12 +17,11 @@ export default function AlertRoster () {
             <Container>
                 {list.map(data => {
                     return (
-                        <Row>
-                            <h4 key={data.DODID}>
-                                <Col>
-                                    {data.rank} {data.last_name} {data.first_name} {data.phone_number}
-                                </Col>
-                            </h4>
+                        <Row key={data.DODID}>
+                            <Col>{data.rank}</Col>
+                            <Col>{data.last_name}</Col>
+                            <Col>{data.first_name}</Col>
+                            <Col>{data.phone_number}</Col>
                         </Row>
                     )
                 })}
