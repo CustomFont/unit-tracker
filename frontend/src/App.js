@@ -1,6 +1,7 @@
 import './App.css'
 import React from 'react';
-import { BrowserRouter as Router,  Routes,  Route }   from 'react-router-dom';  
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Routes,  Route }   from 'react-router-dom';  
 import Registration from './components/registration';
 import Splashpage from './components/splashpage';
 import AlertRoster from './components/alertroster';
@@ -11,14 +12,12 @@ function App() {
   return (
     <>
       <div className="App">
-      <Router>
         <Routes>
           <Route path='/' element={<Splashpage />} />
           <Route path='/registration' element={<Registration />} />
           <Route path='/alertroster' element={<AlertRoster />} />
           <Route path='/leadersportal' element={<LeadersPortal />} />
         </Routes>
-      </Router>
       </div>
     </>
   );

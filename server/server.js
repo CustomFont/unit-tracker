@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 var cors = require('cors');
 const bcrypt = require('bcrypt');
 var session = require('express-session');
-
 const app = express();
 const port = process.env.PORT || 8081;
 const config = require('./knexfile.js');
@@ -22,11 +22,18 @@ const store = new KnexSessionStore({
   knex,
   tablename: 'sessions',
 });
+
+app.use(cors({
+    credentials: true, // important part here
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}));
+
 // options for session
 app.use(session({
-  secret: 'supersecretsecretthatisverysecret',
-  resave: false,
-  saveUninitialized: true,
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
     cookie: { secure: false, maxAge: 300000  },
   store
 }))
@@ -52,13 +59,13 @@ app.use(async (req, res, next) => {
 
 //---------------Credentials----------------//
 app.post('/login', async (req, res) => {
-    if (req.body.DODID && req.body.last_four_SSN){
+    if (req.body.DODID && req.body.SSN){
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
             DBdodid = DBdodid[0].DODID;
             if (DBdodid === req.body.DODID){
-                let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
-                let attemptPassword = await bcrypt.compare(req.body.last_four_SSN, DBlastFour[0].last_four_SSN)
+                let DBlastFour = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
+                let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
                 if (attemptPassword === true){
                     req.session.authenticated = true;
                     res.status(200).send('login successful')
@@ -99,22 +106,6 @@ app.get('/users/:company_id', (req, res) => {
     } else {
         res.status(400).sendStatus(400)
     } 
-})
-
-//soldier makes a new record
-app.post('/users', async (req, res) => {
-    try{
-        bcrypt.hash(req.body.last_four_SSN, 10, function (err, hash) {
-            req.body.last_four_SSN = hash;
-            knex('soldier_data').insert(req.body)
-                .then(response => {
-                    res.status(201).send('New user added.')
-            })
-        })
-    } catch(e) {
-        console.log(e);
-        res.status(500).send('Something broke.')
-    }
 })
 
 //patch soldier data
@@ -160,17 +151,23 @@ app.patch('/:DODID/toggleadmin', async (req, res) => {
 })
 
 // add new soldier by unit registration code (deletes pre-existing soldier record with same dodid)
-app.post('/addsoldier', async (req, res) => {
+app.post('/register', async (req, res) => {
     let regKey = req.body.registration_key;
     let company_id = await knex('company_data').select('id').where({'registration_key': regKey})
         .catch(err => {
             console.error(err)
             res.status(500).send('incorrect registration key')
-        })
+        }) 
     req.body.company_id = company_id[0].id;
     await knex('soldier_data').where({'DODID': req.body.DODID}).delete();
     delete req.body.registration_key;
-    knex('soldier_data').insert(req.body).then(res.status(201).send('Soldier Added'))
+    bcrypt.hash(req.body.SSN, 10, function (err, hash) {
+        req.body.SSN = hash;
+        knex('soldier_data').insert(req.body)
+            .then(response => {
+                res.status(201).send('New Soldier added.')
+            })
+    })
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
