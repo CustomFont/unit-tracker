@@ -43,7 +43,7 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/units' && req.method === 'GET') {
+    } else if (req.path === '/register' && req.method === 'POST') {
         req.session.authenticated = false;
             next();
     } else {
