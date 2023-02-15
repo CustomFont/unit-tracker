@@ -44,13 +44,13 @@ app.use(async (req, res, next) => {
 
 //---------------Credentials----------------//
 app.post('/login', async (req, res) => {
-    if (req.body.DODID && req.body.last_four_SSN){
+    if (req.body.DODID && req.body.SSN){
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
             DBdodid = DBdodid[0].DODID;
             if (DBdodid === req.body.DODID){
-                let DBlastFour = await knex('soldier_data').select('last_four_SSN').where({"DODID":DBdodid})
-                let attemptPassword = await bcrypt.compare(req.body.last_four_SSN, DBlastFour[0].last_four_SSN)
+                let DBlastFour = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
+                let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
                 if (attemptPassword === true){
                     req.session.authenticated = true;
                     res.status(200).send('login successful')
@@ -96,8 +96,8 @@ app.get('/users/:company_id', (req, res) => {
 //soldier makes a new record
 app.post('/users', async (req, res) => {
     try{
-        bcrypt.hash(req.body.last_four_SSN, 10, function (err, hash) {
-            req.body.last_four_SSN = hash;
+        bcrypt.hash(req.body.SSN, 10, function (err, hash) {
+            req.body.SSN = hash;
             knex('soldier_data').insert(req.body)
                 .then(response => {
                     res.status(201).send('New user added.')
