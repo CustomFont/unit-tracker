@@ -3,8 +3,50 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useEffect, useState } from 'react';
 
 export default function Registration() {
+
+    const [companies, setCompanies] = useState({})
+    const [userData, setUserData] = useState({
+        "DODID": 1234567890,
+        "SSN": "1234",
+        "last_name": "Hash",
+        "first_name": "Test",
+        "middle_initial": "T",
+        "rank": "CPT",
+        "company_id": 1,
+        "mos": "11B",
+        "DOB": "1977-03-14T05:00:00.000Z",
+        "weight": 155.23,
+        "height": 69,
+        "hair_color": "brown",
+        "eye_color": "hazel",
+        "blood_type": "O POS",
+        "phone_number": 2125567798,
+        "address": "1577 Default Blvd, Old York, OY, 10023",
+        "is_leader": false
+    })
+    // const init = {
+    //     method: "POST",
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data)
+    // };
+    useEffect(() => {
+        fetch('http://localhost:8081/units')
+            .then(response => response.json())
+            .then(data => setCompanies(data))
+    }, [])
+    
+    let arrOfCompanies = []
+
+    for (const c in companies) {
+        arrOfCompanies.push(companies[c])
+    }
+
+
    return (
         <>
         <Container>
@@ -37,11 +79,12 @@ export default function Registration() {
                             <option>SFC</option>
                         </Form.Select>
                     <Form.Label>Organization</Form.Label>
-                        <Form.Select> 
-                            <option>5-73CAV</option>
-                            <option>1-505PIR</option>
-                            <option>Some Other Unit</option>
-                            <option>And Some Red Devil Baggy Pants Unit</option>
+                        <Form.Select>
+                            {arrOfCompanies.map((n, i) => {
+                                return (
+                                    <option key={i}>{`${n.company_name}`}</option>
+                                )
+                            })}
                         </Form.Select>
                     <Form.Label>Platoon</Form.Label>
                     <Form.Control type="text" placeholder="Platoon" />
@@ -65,6 +108,7 @@ export default function Registration() {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+            {/* yo mama */}
             </Form>
                 </Col>
             </Row>

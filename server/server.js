@@ -10,6 +10,11 @@ const knex = require('knex')(config['development']);
 
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
+app.use(cors({
+    credentials: true, 
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}));
 
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
@@ -28,9 +33,12 @@ app.use(session({
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
-    if (req.path === '/login' && req.method === 'POST') {
+    if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
         req.session.authenticated = false;
         next();
+    } else if (req.path === '/units' && req.method === 'GET') {
+        req.session.authenticated = false;
+            next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
@@ -130,6 +138,12 @@ app.delete('/:DODID',(req, res) => {
         res.status(400).sendStatus(400)
     }
 })
+
+//get company_name
+app.get('/units', (req, res) => {
+    knex('company_data').select('company_name').orderBy('company_name', 'asc').then(data => res.status(200).send(data))
+})
+
 
 //get soldier by company_id
 app.get('/company', (req, res) => {
