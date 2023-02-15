@@ -12,3 +12,8 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.container {
+  background-color: dimgray;
+  display: grid;
+}

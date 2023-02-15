@@ -11,7 +11,10 @@ export default function AlertRoster () {
             .then(data => setList(data))
         }, [])
         console.log(list)
+    //create helper funtion for for loop
         
+
+
     return (
         <div className="alert-container">
             <h1>Alert Roster</h1>
