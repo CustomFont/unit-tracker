@@ -26,7 +26,7 @@ export default function Login() {
 
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
-                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin=>({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
+                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
                     <Form.Text className="text-muted">
                     We'll never share your DOD ID with anyone else.
                     </Form.Text>
