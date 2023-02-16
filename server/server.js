@@ -46,13 +46,8 @@ app.use(async (req, res, next) => {
         next();
     } else if (req.path === '/register' && req.method === 'POST') {
         req.session.authenticated = false;
-<<<<<<< HEAD
-            next();
-    } else if (req.path === '/units') {
-=======
         next();
     } else if (req.path === '/register') {
->>>>>>> a12a8758523c5b9b6b9a64fcd64e3501008b28ab
         req.session.authenticated = true;
         next();
     } else {
