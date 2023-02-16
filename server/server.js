@@ -72,8 +72,16 @@ app.post('/login', async (req, res) => {
                 let DBSSN = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
+                    let is_leader = await knex('soldier_data').select('is_leader').where({ "DODID": DBdodid })
+                    is_leader = is_leader[0].is_leader;
+                    req.session.is_leader = is_leader;
                     req.session.authenticated = true;
-                    res.status(200).send('Login successful')
+                    console.log(req.session)
+                    if( is_leader ){
+                        res.status(250).send('Leader Login Successful')
+                    } else {
+                        res.status(200).send('Login successful')
+                    }
                 } else {
                     req.session.authenticated = false;
                     res.status(500).send('SSN incorrect')

@@ -5,7 +5,7 @@ import { Routes,  Route }   from 'react-router-dom';
 import Registration from './components/registration';
 import Splashpage from './components/splashpage';
 import AlertRoster from './components/AlertRoster';
-import LeadersPortal from './components/leadersportal';
+import LeadersPortal from './components/LeadersPortal';
 
 
 function App() {

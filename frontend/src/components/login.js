@@ -20,10 +20,20 @@ export default function Login() {
             withCredentials: true,
             credentials: 'include'
         }).then(res => {
+            console.log(res)
             if(res.status === 200){
                 if (e.target.id === "login") {
                     navigate('/registration')
                 } else if (e.target.id === "alertRosterButton"){
+                    navigate('/alertroster')
+                } else if (e.target.id === "leadersportal") {
+                    console.log('you do note have admin rights')
+                }
+            } 
+            else if (res.status === 250){
+                if (e.target.id === "login") {
+                    navigate('/registration')
+                } else if (e.target.id === "alertRosterButton") {
                     navigate('/alertroster')
                 } else if (e.target.id === "leadersportal") {
                     navigate('/leadersportal')

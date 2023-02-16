@@ -83,9 +83,7 @@ export default function Registration() {
     //         [event.target.name]: value
     //     })
     // }
-
-
-
+    
    return (
         <>
         <Container>
