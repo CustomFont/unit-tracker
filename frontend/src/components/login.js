@@ -21,7 +21,9 @@ export default function Login() {
             credentials: 'include'
         }).then(res => {
             if(res.status === 200){
-                if (e.target.id === "alertRosterButton"){
+                if (e.target.id === "login") {
+                    navigate('/registration')
+                } else if (e.target.id === "alertRosterButton"){
                     navigate('/alertroster')
                 } else if (e.target.id === "leadersportal") {
                     navigate('/leadersportal')
@@ -55,6 +57,11 @@ export default function Login() {
                     <Form.Label>Social Security Number</Form.Label>
                     <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
                 </Form.Group>
+                <br />
+                <br />
+                <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
+                    Login
+                </Button>
                 <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
                     Alert Roster
                 </Button>

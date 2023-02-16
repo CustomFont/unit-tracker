@@ -33,7 +33,8 @@ export default function Registration() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userData),
+        credentials: 'include'
     };
 
     const handleSubmit = (e) => {
@@ -50,7 +51,7 @@ export default function Registration() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/units')
+        fetch('http://localhost:8080/units', { credentials: 'include' })
             .then(response => response.json())
             .then(data => setCompanies(data))
     }, [])
