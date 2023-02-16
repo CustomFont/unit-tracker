@@ -16,8 +16,9 @@ export default function Login() {
                 'Content-Type': 'application/json'
             },
             body: stringifiedJSON,
-            withCredentials: true
-        }).then(res => console.log(res))
+            withCredentials: true,
+            credentials: 'include'
+        }).then(res => console.log(res.cookie))
     }
 
     return (

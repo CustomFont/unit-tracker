@@ -31,15 +31,17 @@ app.use(cors({
 
 // options for session
 app.use(session({
+    name: 'app.sid',
     secret: process.env.SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 300000, sameSite: 'none' },
-  store
+    cookie: { secure: false, maxAge: 300000, sameSite: 'lax' },
+    store
 }))
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
+    req.session.authenticated = false;
     if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
         req.session.authenticated = false;
         next();
@@ -54,6 +56,7 @@ app.use(async (req, res, next) => {
         if(authenticationStatus){
             next();
         } else {
+            req.session.authenticated = false;
             res.status(403).send('Bad Credentials')
             return
         }
