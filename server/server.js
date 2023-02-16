@@ -41,7 +41,6 @@ app.use(session({
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
-    req.session.authenticated = false;
     if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
         req.session.authenticated = false;
         next();
@@ -93,6 +92,7 @@ app.get('/logout', (req, res) => {
 //---------------Soldier Data---------------//
 //get all users
 app.get('/users', async (req, res, next) => {
+    console.log(req.session)
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 

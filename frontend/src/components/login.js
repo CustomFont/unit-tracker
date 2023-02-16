@@ -27,6 +27,7 @@ export default function Login() {
     }
     return (
         <>
+            <button onClick={getallusers}>get all users</button>
             <Form onSubmit={onFormSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>UNIT</Form.Label>
@@ -63,7 +64,7 @@ export default function Login() {
             <br />
             <br />
             <LinkContainer to='/registration'>
-                <Button variant="success" type="button" onClick={getallusers}>
+                <Button variant="success" type="button">
                     Registration
                 </Button>
             </LinkContainer>
