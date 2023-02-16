@@ -6,6 +6,7 @@ var session = require('express-session');
 const app = express();
 const port = process.env.PORT || 8081;
 const config = require('./knexfile.js');
+const { response } = require('express');
 const knex = require('knex')(config['development']);
 
 app.use(express.json());
@@ -34,7 +35,7 @@ app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 300000  },
+    cookie: { secure: false, maxAge: 10000000  },
   store
 }))
 
@@ -168,6 +169,37 @@ app.post('/register', async (req, res) => {
                 res.status(201).send('New Soldier added.')
             })
     })
+})
+
+// add unit with randomized regkey (if company exist replaces reg_key)
+app.post('/addunit', async (req, res) => {
+    let reqCompanyName = req.body.company_name;
+    const randomKey = () => {
+        let regKey = '';
+        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for (let i =0; i < 6; i++) {
+            regKey += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return regKey;
+    }
+    let random = randomKey();
+    let company_name = await knex('company_data').where({'company_name': reqCompanyName})
+        .catch(err => {
+            console.error(err)
+            res.status(500).send('incorrect registration key')
+        })
+    req.body.registration_key = random
+    if(company_name) {
+        company_name = company_name[0].company_name
+        await knex('company_data').update({'registration_key': random})
+            .where({"company_name": company_name})
+            .then(response => res.sendStatus(200))
+    } else {
+        await knex('company_data').insert(req.body)
+        .then(response => {
+            res.status(201).send('New unit added')
+        })
+    }
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
