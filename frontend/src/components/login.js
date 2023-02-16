@@ -5,7 +5,7 @@ import {LinkContainer} from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const [userLogin, setUserLogin] = useState({"DODID": undefined, "SSN": undefined})
+    const [userLogin, setUserLogin] = useState({"DODID": "", "SSN": ""})
     const navigate = useNavigate();
 
     const onFormSubmit = e => {
@@ -57,11 +57,11 @@ export default function Login() {
                     <Form.Label>Social Security Number</Form.Label>
                     <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
                 </Form.Group>
-                <br />
-                <br />
                 <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
                     Login
                 </Button>
+                <br />
+                <br />
                 <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
                     Alert Roster
                 </Button>
