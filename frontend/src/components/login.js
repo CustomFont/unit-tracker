@@ -2,14 +2,15 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [userLogin, setUserLogin] = useState({"DODID": undefined, "SSN": undefined})
+    const navigate = useNavigate();
 
     const onFormSubmit = e => {
         e.preventDefault()
         let stringifiedJSON = JSON.stringify(userLogin);
-        console.log(stringifiedJSON)
         fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: {
@@ -18,16 +19,22 @@ export default function Login() {
             body: stringifiedJSON,
             withCredentials: true,
             credentials: 'include'
-        }).then(res => console.log(res.session))
+        }).then(res => {
+            if(res.status === 200){
+                if (e.target.id === "login") {
+                    navigate('/registration')
+                } else if (e.target.id === "alertRosterButton"){
+                    navigate('/alertroster')
+                } else if (e.target.id === "leadersportal") {
+                    navigate('/leadersportal')
+                }
+            }
+        }) 
     }
-    const getallusers = () => {
-        fetch('http://localhost:8080/users', { credentials: 'include' })
-            .then(res => res.json())
-            .then(data => console.log(data))
-    }
+
     return (
         <>
-            <Form onSubmit={onFormSubmit}>
+            <Form>
                 <Form.Group className="mb-3">
                     <Form.Label>UNIT</Form.Label>
                         <Form.Select> 
@@ -50,30 +57,29 @@ export default function Login() {
                     <Form.Label>Social Security Number</Form.Label>
                     <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <br />
+                <br />
+                <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
                     Login
                 </Button>
-            </Form>
-            <br />
-            <LinkContainer to='/alertroster'>
-                <Button variant="secondary" type="button">
+                <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
                     Alert Roster
                 </Button>
-            </LinkContainer>
-            <br />
+                <br />
+                <br />
+                <Button id="leadersportal" variant="danger" type="submit" onClick={onFormSubmit}>
+                    Leaders' Portal
+                </Button>
+            </Form>
+
             <br />
             <LinkContainer to='/registration'>
-                <Button variant="success" type="button" onClick={getallusers}>
+                <Button id="registrationButton" variant="success" type="button">
                     Registration
                 </Button>
             </LinkContainer>
             <br />
             <br />
-            <LinkContainer to='/leadersportal'>
-                <Button variant="danger" type="button">
-                    Leaders' Portal
-                </Button>
-            </LinkContainer>
         </>
     )
 }

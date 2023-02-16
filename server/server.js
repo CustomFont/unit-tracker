@@ -41,14 +41,18 @@ app.use(session({
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
-    req.session.authenticated = false;
-    if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
+    if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
     } else if (req.path === '/register' && req.method === 'POST') {
         req.session.authenticated = false;
+<<<<<<< HEAD
             next();
     } else if (req.path === '/units') {
+=======
+        next();
+    } else if (req.path === '/register') {
+>>>>>>> a12a8758523c5b9b6b9a64fcd64e3501008b28ab
         req.session.authenticated = true;
         next();
     } else {
@@ -87,12 +91,14 @@ app.post('/login', async (req, res) => {
     }
 })
 app.get('/logout', (req, res) => {
+    req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
 })
 //---------------Soldier Data---------------//
 //get all users
 app.get('/users', async (req, res, next) => {
+    console.log(req.session)
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 
