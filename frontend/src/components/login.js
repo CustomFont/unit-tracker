@@ -10,6 +10,20 @@ export default function Login() {
 
     const onFormSubmit = e => {
         e.preventDefault()
+        // sanitize input here
+        if (/^\d+$/.test(userLogin.DODID) === false) {
+            console.log('DODID must be a number')
+            return
+        } if (userLogin.DODID.length !== 10) {
+            console.log("DODID must have a length of 10")
+            return
+        } if (/^\d+$/.test(userLogin.SSN) === false) {
+            console.log('SSN must be a number')
+            return
+        } else if (userLogin.SSN.length !== 9) {
+            console.log("DODID must have a length of 9")
+            return
+        }
         let stringifiedJSON = JSON.stringify(userLogin);
         fetch('http://localhost:8080/login', {
             method: 'POST',
@@ -20,7 +34,6 @@ export default function Login() {
             withCredentials: true,
             credentials: 'include'
         }).then(res => {
-            console.log(res)
             if(res.status === 200){
                 if (e.target.id === "login") {
                     navigate('/registration')
