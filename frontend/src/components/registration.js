@@ -16,6 +16,7 @@ export default function Registration() {
         "middle_initial": "",
         "rank": "",
         "company_id": 1,
+        "registration_key": "",
         "mos": "",
         "DOB": "",
         "weight": 0,
@@ -33,7 +34,6 @@ export default function Registration() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData)
     };
 
     const handleSubmit = (e) => {
@@ -42,9 +42,6 @@ export default function Registration() {
             .then(response => response.json())
             .then(data => {
                 console.log('Success!', data)
-            })
-            .catch((error) => {
-                console.error('Error:', error)
             })
         console.log(JSON.stringify(userData))
     }
@@ -60,6 +57,8 @@ export default function Registration() {
     for (const c in companies) {
         arrOfCompanies.push(companies[c])
     }
+
+    console.log(arrOfCompanies)
 
     // function handleChange(event) {
     //     const value = event.target.value;
@@ -112,6 +111,8 @@ export default function Registration() {
                                 )
                             })}
                         </Form.Select>
+                    <Form.Label>Registration Key</Form.Label>
+                    <Form.Control type="text" placeholder="Registration Key" name="registration_key" value={userData.registration_key} onChange={(e) => setUserData(userData => ({...userData, "registration_key": e.target.value}))} />
                     <Form.Label>Platoon</Form.Label>
                     <Form.Control type="text" placeholder="Platoon" />
                     <Form.Label>PMOS</Form.Label>
