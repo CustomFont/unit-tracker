@@ -41,12 +41,12 @@ app.use(session({
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
-    if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
+    if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
     } else if (req.path === '/register' && req.method === 'POST') {
         req.session.authenticated = false;
-            next();
+        next();
     } else if (req.path === '/register') {
         req.session.authenticated = true;
         next();
@@ -86,6 +86,7 @@ app.post('/login', async (req, res) => {
     }
 })
 app.get('/logout', (req, res) => {
+    req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
 })
