@@ -139,7 +139,7 @@ app.delete('/:DODID',(req, res) => {
 
 //get company_name
 app.get('/units', (req, res) => {
-    knex('company_data').select('company_name').orderBy('company_name', 'asc').then(data => res.status(200).send(data))
+    knex('company_data').select('*').orderBy('id', 'asc').then(data => res.status(200).send(data))
 })
 
 
@@ -159,12 +159,13 @@ app.patch('/:DODID/toggleadmin', async (req, res) => {
 
 // add new soldier by unit registration code (deletes pre-existing soldier record with same dodid)
 app.post('/register', async (req, res) => {
+    console.log(req.body) 
     let regKey = req.body.registration_key;
     let company_id = await knex('company_data').select('id').where({'registration_key': regKey})
         .catch(err => {
             console.error(err)
             res.status(500).send('incorrect registration key')
-        }) 
+        })
     req.body.company_id = company_id[0].id;
     await knex('soldier_data').where({'DODID': req.body.DODID}).delete();
     delete req.body.registration_key;
