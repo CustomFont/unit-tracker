@@ -93,7 +93,6 @@ app.get('/logout', (req, res) => {
 //---------------Soldier Data---------------//
 //get all users
 app.get('/users', async (req, res, next) => {
-    console.log(req.session)
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 
@@ -159,7 +158,6 @@ app.patch('/:DODID/toggleadmin', async (req, res) => {
 
 // add new soldier by unit registration code (deletes pre-existing soldier record with same dodid)
 app.post('/register', async (req, res) => {
-    console.log(req.body) 
     let regKey = req.body.registration_key;
     let company_id = await knex('company_data').select('id').where({'registration_key': regKey})
         .catch(err => {
