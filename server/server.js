@@ -31,15 +31,17 @@ app.use(cors({
 
 // options for session
 app.use(session({
+    name: 'app.sid',
     secret: process.env.SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 300000, sameSite: 'none' },
-  store
+    cookie: { secure: false, maxAge: 300000, sameSite: 'strict' },
+    store
 }))
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
+    req.session.authenticated = false;
     if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
         req.session.authenticated = false;
         next();
@@ -54,6 +56,7 @@ app.use(async (req, res, next) => {
         if(authenticationStatus){
             next();
         } else {
+            req.session.authenticated = false;
             res.status(403).send('Bad Credentials')
             return
         }
@@ -67,14 +70,14 @@ app.post('/login', async (req, res) => {
         if (DBdodid[0]){
             DBdodid = DBdodid[0].DODID;
             if (DBdodid == req.body.DODID){
-                let DBlastFour = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
-                let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
+                let DBSSN = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
+                let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
                     req.session.authenticated = true;
-                    res.status(200).send(req.session)
+                    res.status(200).send('Login successful')
                 } else {
                     req.session.authenticated = false;
-                    res.status(500).send('Last four SSN incorrect')
+                    res.status(500).send('SSN incorrect')
                 }
             }
         } else {

@@ -16,10 +16,15 @@ export default function Login() {
                 'Content-Type': 'application/json'
             },
             body: stringifiedJSON,
-            withCredentials: true
-        }).then(res => console.log(res))
+            withCredentials: true,
+            credentials: 'include'
+        }).then(res => console.log(res.session))
     }
-
+    const getallusers = () => {
+        fetch('http://localhost:8080/users', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => console.log(data))
+    }
     return (
         <>
             <Form onSubmit={onFormSubmit}>
@@ -58,7 +63,7 @@ export default function Login() {
             <br />
             <br />
             <LinkContainer to='/registration'>
-                <Button variant="success" type="button">
+                <Button variant="success" type="button" onClick={getallusers}>
                     Registration
                 </Button>
             </LinkContainer>
