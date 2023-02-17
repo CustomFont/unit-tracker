@@ -24,12 +24,6 @@ const store = new KnexSessionStore({
   tablename: 'sessions',
 });
 
-app.use(cors({
-    credentials: true, // important part here
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200
-}));
-
 // options for session
 app.use(session({
     name: 'app.sid',
@@ -45,7 +39,7 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/registration') {
+    } else if (req.path === '/register') {
         req.session.authenticated = true;
         next();
     } else if (req.path === '/units') {
