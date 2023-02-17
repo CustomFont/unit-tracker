@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 export default function AlertRoster () {
     const [list, setList] = useState([])
     useEffect(() => {
-        fetch ('http://localhost:8080/users') 
+        fetch('http://localhost:8080/users', { credentials: 'include' }) 
             .then((res) => res.json())
             .then(data => setList(data))
         }, [])

@@ -2,28 +2,62 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const [SSN, setSSN] = useState('')
-    const [dodID, setDodID] = useState('')
-    const handleChange = (e) => {
-        e.preventDefault();
-        if (e.target.id === 'formBasicPassword'){
-            console.log(e.target.id)
-            setSSN(e.target.value)
-        } else if (e.target.id === 'formBasicDod'){
-            setDodID(e.target.value)
-        }
-    };
+    const [userLogin, setUserLogin] = useState({"DODID": "", "SSN": ""})
+    const navigate = useNavigate();
+
     const onFormSubmit = e => {
         e.preventDefault()
-        let submitionData = JSON.stringify({ "DODID": dodID, "SSN": SSN })
-        console.log(submitionData)
+        // sanitize input here
+        if (/^\d+$/.test(userLogin.DODID) === false) {
+            console.log('DODID must be a number')
+            return
+        } if (userLogin.DODID.length !== 10) {
+            console.log("DODID must have a length of 10")
+            return
+        } if (/^\d+$/.test(userLogin.SSN) === false) {
+            console.log('SSN must be a number')
+            return
+        } else if (userLogin.SSN.length !== 9) {
+            console.log("DODID must have a length of 9")
+            return
+        }
+        let stringifiedJSON = JSON.stringify(userLogin);
+        fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: stringifiedJSON,
+            withCredentials: true,
+            credentials: 'include'
+        }).then(res => {
+            if(res.status === 200){
+                if (e.target.id === "login") {
+                    navigate('/registration')
+                } else if (e.target.id === "alertRosterButton"){
+                    navigate('/alertroster')
+                } else if (e.target.id === "leadersportal") {
+                    console.log('you do note have admin rights')
+                }
+            } 
+            else if (res.status === 250){
+                if (e.target.id === "login") {
+                    navigate('/registration')
+                } else if (e.target.id === "alertRosterButton") {
+                    navigate('/alertroster')
+                } else if (e.target.id === "leadersportal") {
+                    navigate('/leadersportal')
+                }
+            }
+        }) 
     }
 
     return (
         <>
-            <Form onSubmit={onFormSubmit}>
+            <Form>
                 <Form.Group className="mb-3">
                     <Form.Label>UNIT</Form.Label>
                         <Form.Select> 
@@ -36,7 +70,7 @@ export default function Login() {
 
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
-                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={handleChange} value={dodID} />
+                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
                     <Form.Text className="text-muted">
                     We'll never share your DOD ID with anyone else.
                     </Form.Text>
@@ -44,32 +78,31 @@ export default function Login() {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Social Security Number</Form.Label>
-                    <Form.Control type="password" placeholder="SSN" onChange={handleChange} value={SSN} />
+                    <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
                     Login
                 </Button>
-            </Form>
-            <br />
-            <LinkContainer to='/alertroster'>
-                <Button variant="secondary" type="button">
+                <br />
+                <br />
+                <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
                     Alert Roster
                 </Button>
-            </LinkContainer>
-            <br />
+                <br />
+                <br />
+                <Button id="leadersportal" variant="danger" type="submit" onClick={onFormSubmit}>
+                    Leaders' Portal
+                </Button>
+            </Form>
+
             <br />
             <LinkContainer to='/registration'>
-                <Button variant="success" type="button">
+                <Button id="registrationButton" variant="success" type="button">
                     Registration
                 </Button>
             </LinkContainer>
             <br />
             <br />
-            <LinkContainer to='/leadersportal'>
-                <Button variant="danger" type="button">
-                    Leaders' Portal
-                </Button>
-            </LinkContainer>
         </>
     )
 }

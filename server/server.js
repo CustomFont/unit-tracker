@@ -32,26 +32,31 @@ app.use(cors({
 
 // options for session
 app.use(session({
+    name: 'app.sid',
     secret: process.env.SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 10000000  },
-  store
+    cookie: { secure: false, maxAge: 300000, sameSite: 'strict' },
+    store
 }))
 
 // use if else syntax to make middleware ignore specific routes 
 app.use(async (req, res, next) => {
-    if (req.path === '/login' && req.method === 'POST' || req.path === '/logout') {
+    if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/units' && req.method === 'GET') {
-        req.session.authenticated = false;
-            next();
+    } else if (req.path === '/registration') {
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/units') {
+        req.session.authenticated = true;
+        next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
             next();
         } else {
+            req.session.authenticated = false;
             res.status(403).send('Bad Credentials')
             return
         }
@@ -64,15 +69,23 @@ app.post('/login', async (req, res) => {
         let DBdodid = await knex('soldier_data').select("DODID").where({ "DODID": req.body.DODID })
         if (DBdodid[0]){
             DBdodid = DBdodid[0].DODID;
-            if (DBdodid === req.body.DODID){
-                let DBlastFour = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
-                let attemptPassword = await bcrypt.compare(req.body.SSN, DBlastFour[0].SSN)
+            if (DBdodid == req.body.DODID){
+                let DBSSN = await knex('soldier_data').select('SSN').where({"DODID":DBdodid})
+                let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
+                    let is_leader = await knex('soldier_data').select('is_leader').where({ "DODID": DBdodid })
+                    is_leader = is_leader[0].is_leader;
+                    req.session.is_leader = is_leader;
                     req.session.authenticated = true;
-                    res.status(200).send('login successful')
+                    console.log(req.session)
+                    if( is_leader ){
+                        res.status(250).send('Leader Login Successful')
+                    } else {
+                        res.status(200).send('Login successful')
+                    }
                 } else {
                     req.session.authenticated = false;
-                    res.status(500).send('Last four SSN incorrect')
+                    res.status(500).send('SSN incorrect')
                 }
             }
         } else {
@@ -82,6 +95,7 @@ app.post('/login', async (req, res) => {
     }
 })
 app.get('/logout', (req, res) => {
+    req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
 })
@@ -133,7 +147,7 @@ app.delete('/:DODID',(req, res) => {
 
 //get company_name
 app.get('/units', (req, res) => {
-    knex('company_data').select('company_name').orderBy('company_name', 'asc').then(data => res.status(200).send(data))
+    knex('company_data').select('*').orderBy('id', 'asc').then(data => res.status(200).send(data))
 })
 
 
@@ -158,7 +172,7 @@ app.post('/register', async (req, res) => {
         .catch(err => {
             console.error(err)
             res.status(500).send('incorrect registration key')
-        }) 
+        })
     req.body.company_id = company_id[0].id;
     await knex('soldier_data').where({'DODID': req.body.DODID}).delete();
     delete req.body.registration_key;
