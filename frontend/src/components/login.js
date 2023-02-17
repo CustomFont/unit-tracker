@@ -21,7 +21,7 @@ export default function Login() {
             console.log('SSN must be a number')
             return
         } else if (userLogin.SSN.length !== 9) {
-            console.log("DODID must have a length of 9")
+            console.log("SSN must have a length of 9")
             return
         }
         let stringifiedJSON = JSON.stringify(userLogin);
