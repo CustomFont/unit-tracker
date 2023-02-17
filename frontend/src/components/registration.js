@@ -18,7 +18,7 @@ export default function Registration() {
 
     const [companies, setCompanies] = useState({})
     const [userData, setUserData] = useState({
-        "DODID": 0,
+        "DODID": "",
         "SSN": "",
         "last_name": "",
         "first_name": "",
@@ -28,12 +28,12 @@ export default function Registration() {
         "registration_key": "",
         "mos": "",
         "DOB": "",
-        "weight": 0,
-        "height": 0,
+        "weight": "",
+        "height": "",
         "hair_color": "",
         "eye_color": "",
         "blood_type": "",
-        "phone_number": 0,
+        "phone_number": "",
         "address": "",
         "is_leader": false
     })
