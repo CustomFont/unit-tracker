@@ -8,6 +8,7 @@ const port = process.env.PORT || 8081;
 const config = require('./knexfile.js');
 const knex = require('knex')(config['development']);
 
+
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
@@ -15,6 +16,8 @@ app.use(cors({
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 }));
+
+
 
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
@@ -42,6 +45,12 @@ app.use(async (req, res, next) => {
         req.session.authenticated = true;
         next();
     } else if (req.path === '/units') {
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/users') { //remove this once done
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/update') { //remove this once done
         req.session.authenticated = true;
         next();
     } else {
@@ -96,6 +105,23 @@ app.get('/logout', (req, res) => {
 //get all users
 app.get('/users', async (req, res, next) => {
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
+})
+
+//get specific user by DODID
+app.get('/users/:DODID', async (req, res, next) => {
+    let idParam = parseInt(req.params.DODID);
+    if(Number.isInteger(idParam)) {
+        knex('soldier_data').select('*').where({DODID: idParam}).then(data => res.status(200).send(data))
+    }
+})
+
+app.patch('/update/:DODID', (req, res) => {
+    let idParam = parseInt(req.params.DODID);
+    if(Number.isInteger(idParam)) {
+        knex('soldier_data').select('*').where({DODID: idParam}).then(data => res.status(200).send(data))
+    } else {
+        res.status(400).sendStatus(400)
+    }
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
