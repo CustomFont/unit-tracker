@@ -17,8 +17,10 @@ export default function AlertRoster () {
 
     useEffect(() => {
         if (searchInput.length > 0) {
-            setSearchResults(list.filter((user) => user.last_name.toLowerCase().includes(searchInput.toLowerCase()) || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
-            || user.DODID.toString().includes(searchInput)))
+            setSearchResults(list.filter((user) => 
+                user.last_name.toLowerCase().includes(searchInput.toLowerCase()) 
+                || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
+                || user.DODID.toString().includes(searchInput)))
         } 
     }, [searchInput])
 
@@ -29,7 +31,10 @@ export default function AlertRoster () {
         
     const onSubmit = (e) => {
         e.preventDefault();
-        setSearchResults(list.filter((user) => user.last_name.toLowerCase().includes(searchInput.toLowerCase())))
+        setSearchResults(list.filter((user) => 
+            user.last_name.toLowerCase().includes(searchInput.toLowerCase()) 
+            || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
+            || user.DODID.toString().includes(searchInput)))
     }
 
     const renderHelper = () => {
