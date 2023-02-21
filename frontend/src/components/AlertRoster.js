@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
+import LogoutButton from './LogoutButton'
 
 export default function AlertRoster () {
     const [list, setList] = useState([])
@@ -16,7 +17,8 @@ export default function AlertRoster () {
 
     useEffect(() => {
         if (searchInput.length > 0) {
-            setSearchResults(list.filter((user) => user.last_name.toLowerCase().includes(searchInput.toLowerCase())))
+            setSearchResults(list.filter((user) => user.last_name.toLowerCase().includes(searchInput.toLowerCase()) || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
+            || user.DODID.toString().includes(searchInput)))
         } 
     }, [searchInput])
 
@@ -60,6 +62,7 @@ export default function AlertRoster () {
     return (
         <div className="alert-container">
             <h1>Alert Roster</h1>
+            <button className="logout" onSubmit={LogoutButton}>Logout</button>
             <form onSubmit={onSubmit}>
                 <input type='text' placeholder="Search" onChange={handleChange} value={searchInput} />
                 <button className="submit">Submit</button>
