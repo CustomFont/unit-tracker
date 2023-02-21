@@ -5,7 +5,7 @@ import { Routes,  Route }   from 'react-router-dom';
 import Registration from './components/registration';
 import Splashpage from './components/splashpage';
 import AlertRoster from './components/AlertRoster';
-// import LeadersPortal from './components/LeadersPortal';
+import LeadersPortal from './components/LeadersPortal';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
           <Route path='/update' element={<></>} />
           <Route path='/registration' element={<Registration />} />
           <Route path='/alertroster' element={<AlertRoster />} />
-          {/* <Route path='/leadersportal' element={<LeadersPortal />} /> */}
+          <Route path='/leadersportal' element={<LeadersPortal />} />
         </Routes>
       </div>
     </>
