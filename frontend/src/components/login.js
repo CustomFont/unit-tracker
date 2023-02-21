@@ -58,16 +58,6 @@ export default function Login() {
     return (
         <>
             <Form>
-                <Form.Group className="mb-3">
-                    <Form.Label>UNIT</Form.Label>
-                        <Form.Select> 
-                            <option>5-73CAV</option>
-                            <option>1-505PIR</option>
-                            <option>Some Other Unit</option>
-                            <option>And Some Red Devil Baggy Pants Unit</option>
-                        </Form.Select>
-                </Form.Group> 
-
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
                     <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
