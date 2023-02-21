@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
@@ -6,70 +6,85 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [userLogin, setUserLogin] = useState({"DODID": "", "SSN": ""})
+    const [errors, setErrors] = useState({"DODID": false, "SSN": false})
     const navigate = useNavigate();
 
-    const onFormSubmit = e => {
-        e.preventDefault()
-        // sanitize input here
-        if (/^\d+$/.test(userLogin.DODID) === false) {
-            console.log('DODID must be a number')
-            return
-        } if (userLogin.DODID.length !== 10) {
-            console.log("DODID must have a length of 10")
-            return
-        } if (/^\d+$/.test(userLogin.SSN) === false) {
-            console.log('SSN must be a number')
-            return
-        } else if (userLogin.SSN.length !== 9) {
-            console.log("DODID must have a length of 9")
-            return
+
+    // move all checking to useEffect
+    useEffect(()=>{
+        let currentErrors = errors;
+        // regex for only numbers
+        if (/^\d+$/.test(userLogin.SSN) === false || userLogin.SSN.length !== 9) {
+            currentErrors = { ...currentErrors, "SSN": true }
+        } else {
+            currentErrors = { ...currentErrors, "SSN": false }
         }
-        let stringifiedJSON = JSON.stringify(userLogin);
-        fetch('http://localhost:8080/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: stringifiedJSON,
-            withCredentials: true,
-            credentials: 'include'
-        }).then(res => {
-            if(res.status === 200){
-                if (e.target.id === "login") {
-                    navigate('/registration')
-                } else if (e.target.id === "alertRosterButton"){
-                    navigate('/alertroster')
-                } else if (e.target.id === "leadersportal") {
-                    console.log('you do note have admin rights')
+        // regex for only numbers
+        if (/^\d+$/.test(userLogin.DODID) === false || userLogin.DODID.length !== 10) {
+            currentErrors = { ...currentErrors, "DODID": true }
+        } else {
+            currentErrors = { ...currentErrors, "DODID": false }
+        }
+        setErrors(currentErrors)
+    },[userLogin])
+
+    const onFormSubmit = (e) => {
+        e.preventDefault()
+        if (errors.DODID === false && errors.SSN === false) {
+            let stringifiedJSON = JSON.stringify(userLogin);
+            fetch('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: stringifiedJSON,
+                withCredentials: true,
+                credentials: 'include'
+            }).then(res => {
+                if(res.status === 200){
+                    if (e.target.id === "login") {
+                        navigate('/registration')
+                    } else if (e.target.id === "alertRosterButton"){
+                        navigate('/alertroster')
+                    } else if (e.target.id === "leadersportal") {
+                        console.log('you do note have admin rights')
+                    }
+                } 
+                else if (res.status === 250){
+                    if (e.target.id === "login") {
+                        navigate('/registration')
+                    } else if (e.target.id === "alertRosterButton") {
+                        navigate('/alertroster')
+                    } else if (e.target.id === "leadersportal") {
+                        navigate('/leadersportal')
+                    }
                 }
-            } 
-            else if (res.status === 250){
-                if (e.target.id === "login") {
-                    navigate('/registration')
-                } else if (e.target.id === "alertRosterButton") {
-                    navigate('/alertroster')
-                } else if (e.target.id === "leadersportal") {
-                    navigate('/leadersportal')
-                }
-            }
-        }) 
+            }) 
+        }
     }
 
     return (
         <>
-            <Form>
+            <Form noValidate>
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
-                    <Form.Control type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} />
-                    <Form.Text className="text-muted">
+                    <Form.Control required type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} isInvalid={errors.DODID} />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid 10 digit DOD ID.
+                    </Form.Control.Feedback>
+                    {/* <Form.Text className="text-muted" >
                     We'll never share your DOD ID with anyone else.
-                    </Form.Text>
+                    </Form.Text> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Social Security Number</Form.Label>
-                    <Form.Control type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} />
+                    <Form.Control required type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} isInvalid={errors.SSN} />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid 9 digit Social Security Number (no dashes).
+                    </Form.Control.Feedback>
                 </Form.Group>
+
                 <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
                     Login
                 </Button>
