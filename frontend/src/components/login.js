@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from './LogoutButton';
 
 export default function Login() {
     const [userLogin, setUserLogin] = useState({"DODID": "", "SSN": ""})
@@ -67,7 +66,6 @@ export default function Login() {
 
     return (
         <>
-            <LogoutButton/>
             <Form noValidate>
                 <Form.Group className="mb-3" controlId="formBasicDod">
                     <Form.Label>DOD ID</Form.Label>
