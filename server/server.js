@@ -71,7 +71,6 @@ app.post('/login', async (req, res) => {
                     is_leader = is_leader[0].is_leader;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
-                    console.log(req.session)
                     if( is_leader ){
                         res.status(250).send('Leader Login Successful')
                     } else {
@@ -185,7 +184,7 @@ app.post('/addunit', async (req, res) => {
     const randomKey = () => {
         let regKey = '';
         let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        for (let i =0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             regKey += possible.charAt(Math.floor(Math.random() * possible.length));
         }
         return regKey;
