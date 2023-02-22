@@ -67,7 +67,7 @@ export default function AlertRoster () {
     return (
         <div className="alert-container">
             <h1>Alert Roster</h1>
-            <button className="logout" onSubmit={LogoutButton}>Logout</button>
+            <LogoutButton />
             <form onSubmit={onSubmit}>
                 <input type='text' placeholder="Search" onChange={handleChange} value={searchInput} />
                 <button className="submit">Submit</button>
