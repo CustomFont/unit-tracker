@@ -71,7 +71,13 @@ export default function UpdateInfo() {
             .then(data => setCompanies(data))
         fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
             .then(response => response.json())
-            .then(data =>  setUserData(data))
+            .then(jsonData =>  {
+                let data = jsonData[0];
+                setNewUserData(newUserData => ({ ...newUserData, "company_id": data.company_id }))
+                setNewUserData(newUserData => ({...newUserData, "rank": data.rank}))
+                setUserData(jsonData)
+                return
+            })
     }, [])
     
     let arrOfCompanies = []
