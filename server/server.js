@@ -53,6 +53,9 @@ app.use(async (req, res, next) => {
     } else if (req.path === '/update') { //remove this once done
         req.session.authenticated = true;
         next();
+    } else if (req.path === '/confirm') { //remove this once done
+        req.session.authenticated = true;
+        next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){

@@ -18,7 +18,7 @@ export default function UpdateInfo() {
     const [ form, setForm ] = useState({})
 
     const [companies, setCompanies] = useState({})
-    const [userData, setUserData] = useState({
+    const [userData, setUserData] = useState([{
         "DODID": "",
         "last_name": "",
         "first_name": "",
@@ -36,7 +36,7 @@ export default function UpdateInfo() {
         "phone_number": "",
         "address": "",
         "is_leader": false
-    })
+    }])
 
     const init = {
         method: "POST",
@@ -67,7 +67,7 @@ export default function UpdateInfo() {
 
 
     const queryString = window.location.href;
-    const dod = queryString.substring(queryString.indexOf('?')+30) 
+    const dod = queryString.substring(queryString.indexOf('?')+30)
 
 
     useEffect(() => {
@@ -160,7 +160,7 @@ export default function UpdateInfo() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Middle Initial</Form.Label>
-                    <Form.Control type="text" placeholder="Middle Initial" name="middleInitial" value={userData.middle_initial} onChange={(e) => setUserData(userData => ({...userData, "middle_initial": e.target.value}))} />
+                    <Form.Control disabled type="text" placeholder={userData[0].middle_initial} name="middleInitial" value={userData[0].middle_initial} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>DOD ID</Form.Label>
@@ -201,36 +201,30 @@ export default function UpdateInfo() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control disabled type="date" placeholder={userData[0].DOB} name="dob" value={userData[0].DOB} />
-                    <Form.Control.Feedback type='invalid'>{errors.DOB}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control required type="text" placeholder="Age" />
+                    <Form.Control disabled type="text" placeholder={userData[0].DOB} name="dob" value={userData[0].DOB} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Weight</Form.Label>
-                    <Form.Control required type="text" placeholder="Weight" name="weight" value={userData.weight} isInvalid={!!errors.weight} onChange={(e) => [setUserData(userData => ({...userData, "weight": e.target.value})), setField("weight", e.target.value)]} />
+                    <Form.Control required type="text" placeholder={userData[0].weight} name="weight" value={userData[0].weight} isInvalid={!!errors.weight} onChange={(e) => [setUserData(userData => ({...userData, "weight": e.target.value})), setField("weight", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.weight}</Form.Control.Feedback> 
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Height</Form.Label>
-                    <Form.Control required type="text" placeholder="Height in Centimeters" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
+                    <Form.Control required type="text" placeholder={userData[0].height} name="height" value={userData[0].height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.height}</Form.Control.Feedback> 
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Blood Type</Form.Label>
-                    <Form.Control required type="text" placeholder="Blood Type" name="bloodtype" value={userData.blood_type} isInvalid={!!errors.blood_type} onChange={(e) => [setUserData(userData => ({...userData, "blood_type": e.target.value})), setField("blood_type", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.blood_type}</Form.Control.Feedback> 
+                    <Form.Control disabled type="text" placeholder={userData[0].blood_type} name="bloodtype" value={userData[0].blood_type} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Phone Number</Form.Label>
-                    <Form.Control required type="text" placeholder="Phone number" name="phonenumber" value={userData.phone_number} isInvalid={!!errors.phone_number} onChange={(e) => [setUserData(userData => ({...userData, "phone_number": e.target.value})), setField("phone_number", e.target.value)]} />
+                    <Form.Control required type="text" placeholder={userData[0].phone_number} name="phonenumber" value={userData[0].phone_number} isInvalid={!!errors.phone_number} onChange={(e) => [setUserData(userData => ({...userData, "phone_number": e.target.value})), setField("phone_number", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.phone_number}</Form.Control.Feedback> 
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control required type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
+                    <Form.Control required type="text" placeholder={userData[0].address} name="address" value={userData[0].address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
                 </Form.Group>
                 <Button variant="primary" type="submit">
