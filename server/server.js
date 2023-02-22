@@ -134,7 +134,7 @@ app.get('/soldier-record', async (req, res, next) => {
 app.patch('/update', (req, res) => {
     let DODID = req.session.DODID;
     if (Number.isInteger(DODID)) {
-        knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.status(200).send(data))
+        knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.sendStatus(201))
     } else {
         res.sendStatus(400)
     }
