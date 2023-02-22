@@ -3,11 +3,13 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import LogoutButton from './LogoutButton'
+import { useNavigate } from "react-router"
 
 export default function AlertRoster () {
     const [list, setList] = useState([])
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('http://localhost:8080/users', { credentials: 'include' }) 
@@ -35,6 +37,12 @@ export default function AlertRoster () {
             user.last_name.toLowerCase().includes(searchInput.toLowerCase()) 
             || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
             || user.DODID.toString().includes(searchInput)))
+    }
+
+    const navigateToLeadersPortal = () => {
+        // if (is_leader = true) {
+            navigate('/leadersportal')
+        // }
     }
 
     const renderHelper = () => {
@@ -68,6 +76,7 @@ export default function AlertRoster () {
         <div className="alert-container">
             <h1>Alert Roster</h1>
             <LogoutButton />
+            <button className="return2LP" onClick={(navigateToLeadersPortal)}>Return to Leaders Portal</button>
             <form onSubmit={onSubmit}>
                 <input type='text' placeholder="Search" onChange={handleChange} value={searchInput} />
                 <button className="submit">Submit</button>
