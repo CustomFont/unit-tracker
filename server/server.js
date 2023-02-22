@@ -68,7 +68,10 @@ app.post('/login', async (req, res) => {
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
                     let is_leader = await knex('soldier_data').select('is_leader').where({ "DODID": DBdodid })
+                    let company_id = await knex('soldier_data').select('company_id').where({ "DODID": DBdodid })
+                    company_id = company_id[0].company_id;
                     is_leader = is_leader[0].is_leader;
+                    req.session.company_id = company_id;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
                     if( is_leader ){
@@ -108,10 +111,15 @@ app.get('/users', async (req, res, next) => {
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
-app.get('/alertroster/:company_id', (req, res) => {
-    let idParam = parseInt(req.params.company_id);
-    if (Number.isInteger(idParam)){
-    knex('soldier_data').select('rank', 'last_name', 'first_name', 'phone_number').where({company_id: idParam}).then(data => res.send(data))
+app.get('/alertroster', (req, res) => {
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        console.log(company_id)
+        if (Number.isInteger(company_id)){
+            knex('soldier_data').where({ "company_id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
     }
 })
 
