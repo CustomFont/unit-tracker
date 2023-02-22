@@ -7,7 +7,6 @@ import Splashpage from './components/splashpage';
 import AlertRoster from './components/AlertRoster';
 import LeadersPortal from './components/LeadersPortal';
 
-
 function App() {
   return (
     <>
