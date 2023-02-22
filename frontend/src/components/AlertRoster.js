@@ -14,7 +14,7 @@ export default function AlertRoster () {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:8080/users', { credentials: 'include' }) 
+        fetch('http://localhost:8080/alertroster', { credentials: 'include' }) 
             .then((res) => res.json())
             .then(data => setList(data))
     }, [])
