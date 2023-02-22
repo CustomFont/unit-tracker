@@ -98,17 +98,17 @@ export default function Registration() {
             is_leader
         } = form;
         const newErrors = {};
-        if (!DODID || DODID === '') newErrors.DODID = 'Please enter your DODID'
-        if (!SSN || SSN === '') newErrors.SSN = 'Please enter your SSN'
+        if (!DODID || DODID === '' || DODID.length !== 10 || typeof DODID !== 'number') newErrors.DODID = 'Please enter your DODID'
+        if (!SSN || SSN === '' || SSN.length !== 9 || typeof SSN !== 'number') newErrors.SSN = 'Please enter your SSN'
         if (!last_name || last_name === '') newErrors.last_name = 'Please enter your last name'
         if (!first_name || first_name === '') newErrors.first_name = 'Please enter your first name'
         if (!registration_key || registration_key === '') newErrors.registration_key = 'Enter a correct Registration Key'
         if (!mos || mos === '') newErrors.mos = 'Enter your MOS'
         if (!DOB || DOB === '') newErrors.DOB = 'Enter your date of birth'
-        if (!weight || weight === 0) newErrors.weight = 'Enter your weight'
-        if (!height || height === 0) newErrors.height = 'Enter your height'
+        if (!weight || weight === 0 || typeof weight !== 'number') newErrors.weight = 'Enter your weight'
+        if (!height || height === 0 || typeof height !== 'number') newErrors.height = 'Enter your height'
         if (!blood_type || blood_type === 0) newErrors.blood_type = 'Enter your blood type'
-        if (!phone_number || phone_number === 0) newErrors.phone_number = 'Enter your phone number'
+        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof phone_number !== 'number') newErrors.phone_number = 'Enter your phone number'
         if (!address || address === 0) newErrors.address = 'Enter your home address'
 
         return newErrors
