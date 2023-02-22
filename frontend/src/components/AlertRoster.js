@@ -5,15 +5,17 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
+import Button from "react-bootstrap/esm/Button"
 
 export default function AlertRoster () {
     const [list, setList] = useState([])
     const [searchInput, setSearchInput] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const [leaderPortalButton, setLeaderPortalButton] = useState("")
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:8080/users', { credentials: 'include' }) 
+        fetch('http://localhost:8080/alertroster', { credentials: 'include' }) 
             .then((res) => res.json())
             .then(data => setList(data))
     }, [])
@@ -40,12 +42,25 @@ export default function AlertRoster () {
             || user.DODID.toString().includes(searchInput)))
     }
 
-    const navigateToLeadersPortal = () => {
-        // if (is_leader = true) {
-            navigate('/leadersportal')
-        // }
+    const isLeaderButtonRender = () => {
+        let button = leaderPortalButton;
+        
+        if (button === ""){
+            fetch('http://localhost:8080/creds', {credentials: "include"})
+                .then(res => {
+                    if(res.status === 250){
+                        setLeaderPortalButton(<Button variant="dark" onClick={() => {navigate('/leadersportal')}}>Leader's Portal</Button>)
+                    } else {
+                        return
+                    }
+                })        
+        }
+        if(button === ""){
+            return
+        } else {
+            return button
+        }
     }
-
     const renderHelper = () => {
         if(searchInput === '') {
             return list.map(data => {
@@ -81,7 +96,7 @@ export default function AlertRoster () {
         <div className="alert-container">
             <h1>Alert Roster</h1>
             <LogoutButton />
-            <button className="return2LP" onClick={(navigateToLeadersPortal)}>Return to Leaders Portal</button>
+            {isLeaderButtonRender()}
             <form onSubmit={onSubmit}>
                 <input type='text' placeholder="Search" onChange={handleChange} value={searchInput} />
                 <button className="submit">Submit</button>
