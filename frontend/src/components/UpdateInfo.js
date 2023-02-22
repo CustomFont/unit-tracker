@@ -1,4 +1,3 @@
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -9,8 +8,10 @@ import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import LogoutButton from './LogoutButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdateInfo() {
+    const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [ errors, setErrors ] = useState({})
     const [show, setShow] = useState(false);
@@ -136,8 +137,13 @@ export default function UpdateInfo() {
    return (
         <>
         <Container>
-            <Row>
+            <Col>
+                <Button id="alertRosterButton" variant="dark" type="submit" onClick={() => navigate('/alertroster')}>
+                    Alert Roster
+                </Button>
                 <LogoutButton />
+            </Col>
+            <Row>   
                 <Col>
                     <h1>Update Information</h1>
                 </Col>
