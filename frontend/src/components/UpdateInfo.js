@@ -49,7 +49,6 @@ export default function UpdateInfo() {
             body: JSON.stringify(newUserData),
             credentials: 'include'
         };
-        console.log(newUserData)
         const newErrors = findFormErrors();
 
         if (Object.keys(newErrors).length > 0) {
