@@ -38,24 +38,24 @@ export default function UpdateInfo() {
         "is_leader": false
     }])
 
-    const init = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData),
-        credentials: 'include'
-    };
-
-
+    
+    
     const handleSubmit = (e) => {
         e.preventDefault();
+        const init = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+            credentials: 'include'
+        };
         const newErrors = findFormErrors();
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
-            fetch('http://localhost:8080/register', init)
+            fetch('http://localhost:8080/update', init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
@@ -74,10 +74,7 @@ export default function UpdateInfo() {
         fetch('http://localhost:8080/units', { credentials: 'include' })
             .then(response => response.json())
             .then(data => setCompanies(data))
-    }, [])
-
-    useEffect(() => {
-        fetch(`http://localhost:8080/users/${dod}`, { credentials: 'include' })
+        fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
             .then(response => response.json())
             .then(data => setUserData(data))
     }, [])
@@ -141,7 +138,7 @@ export default function UpdateInfo() {
         <>
         <Container>
             <Row>
-                <Col><h1>Registration</h1></Col>
+                <Col><h1>Update Information</h1></Col>
             </Row>
             <br />
             <br />

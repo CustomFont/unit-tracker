@@ -83,6 +83,7 @@ app.post('/login', async (req, res) => {
                     let company_id = await knex('soldier_data').select('company_id').where({ "DODID": DBdodid })
                     company_id = company_id[0].company_id;
                     is_leader = is_leader[0].is_leader;
+                    req.session.DODID = DBdodid;
                     req.session.company_id = company_id;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
@@ -123,19 +124,19 @@ app.get('/users', async (req, res, next) => {
 })
 
 //get specific user by DODID
-app.get('/users/:DODID', async (req, res, next) => {
-    let idParam = parseInt(req.params.DODID);
-    if(Number.isInteger(idParam)) {
-        knex('soldier_data').select('*').where({DODID: idParam}).then(data => res.status(200).send(data))
+app.get('/soldier-record', async (req, res, next) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
     }
 })
 
-app.patch('/update/:DODID', (req, res) => {
-    let idParam = parseInt(req.params.DODID);
-    if(Number.isInteger(idParam)) {
-        knex('soldier_data').select('*').where({DODID: idParam}).then(data => res.status(200).send(data))
+app.patch('/update', (req, res) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.status(200).send(data))
     } else {
-        res.status(400).sendStatus(400)
+        res.sendStatus(400)
     }
 })
 

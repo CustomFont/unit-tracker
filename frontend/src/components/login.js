@@ -44,7 +44,7 @@ export default function Login() {
             }).then(res => {
                 if(res.status === 200){
                     if (e.target.id === "login") {
-                        navigate(`/update/${userLogin.DODID}`)
+                        navigate(`/update`)
                     } else if (e.target.id === "alertRosterButton"){
                         navigate('/alertroster')
                     } else if (e.target.id === "leadersportal") {
@@ -53,7 +53,7 @@ export default function Login() {
                 } 
                 else if (res.status === 250){
                     if (e.target.id === "login") {
-                        navigate(`/update/${userLogin.DODID}`)
+                        navigate(`/update`)
                     } else if (e.target.id === "alertRosterButton") {
                         navigate('/alertroster')
                     } else if (e.target.id === "leadersportal") {
