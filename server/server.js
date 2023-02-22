@@ -114,7 +114,6 @@ app.get('/users', async (req, res, next) => {
 app.get('/alertroster', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
-        console.log(company_id)
         if (Number.isInteger(company_id)){
             knex('soldier_data').where({ "company_id": company_id }).then(data => res.send(data))
         }
