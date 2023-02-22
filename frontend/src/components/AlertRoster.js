@@ -26,6 +26,7 @@ export default function AlertRoster () {
                 || user.first_name.toLowerCase().includes(searchInput.toLowerCase())
                 || user.DODID.toString().includes(searchInput)))
         } 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchInput])
 
     const handleChange = (e) => {
