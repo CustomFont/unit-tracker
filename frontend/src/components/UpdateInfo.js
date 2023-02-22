@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
+import LogoutButton from './LogoutButton';
 
 export default function UpdateInfo() {
     const [validated, setValidated] = useState(false);
@@ -136,7 +137,10 @@ export default function UpdateInfo() {
         <>
         <Container>
             <Row>
-                <Col><h1>Update Information</h1></Col>
+                <LogoutButton />
+                <Col>
+                    <h1>Update Information</h1>
+                </Col>
             </Row>
             <br />
             <br />
