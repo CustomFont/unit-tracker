@@ -6,6 +6,7 @@ var session = require('express-session');
 const app = express();
 const port = process.env.PORT || 8081;
 const config = require('./knexfile.js');
+const { response } = require('express');
 const knex = require('knex')(config['development']);
 
 
@@ -79,10 +80,12 @@ app.post('/login', async (req, res) => {
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
                     let is_leader = await knex('soldier_data').select('is_leader').where({ "DODID": DBdodid })
+                    let company_id = await knex('soldier_data').select('company_id').where({ "DODID": DBdodid })
+                    company_id = company_id[0].company_id;
                     is_leader = is_leader[0].is_leader;
+                    req.session.company_id = company_id;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
-                    console.log(req.session)
                     if( is_leader ){
                         res.status(250).send('Leader Login Successful')
                     } else {
@@ -99,10 +102,19 @@ app.post('/login', async (req, res) => {
         }
     }
 })
+
 app.get('/logout', (req, res) => {
     req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
+})
+// check credentials, leader gets 250, else 200
+app.get('/creds', (req, res) => {
+    if (req.session.is_leader === true){
+        res.status(250).send('Leader')
+    } else {
+        res.status(200).send("Not Leader")
+    }
 })
 //---------------Soldier Data---------------//
 //get all users
@@ -128,10 +140,14 @@ app.patch('/update/:DODID', (req, res) => {
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
-app.get('/alertroster/:company_id', (req, res) => {
-    let idParam = parseInt(req.params.company_id);
-    if (Number.isInteger(idParam)){
-    knex('soldier_data').select('rank', 'last_name', 'first_name', 'phone_number').where({company_id: idParam}).then(data => res.send(data))
+app.get('/alertroster', (req, res) => {
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        if (Number.isInteger(company_id)){
+            knex('soldier_data').where({ "company_id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
     }
 })
 
@@ -205,6 +221,37 @@ app.post('/register', async (req, res) => {
                 res.status(201).send('New Soldier added.')
             })
     })
+})
+
+// add unit with randomized regkey (if company exist replaces reg_key)
+app.post('/addunit', async (req, res) => {
+    let reqCompanyName = req.body.company_name;
+    const randomKey = () => {
+        let regKey = '';
+        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for (let i = 0; i < 6; i++) {
+            regKey += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return regKey;
+    }
+    let random = randomKey();
+    let company_name = await knex('company_data').where({'company_name': reqCompanyName})
+        .catch(err => {
+            console.error(err)
+            res.status(500).send('incorrect registration key')
+        })
+    req.body.registration_key = random
+    if(company_name) {
+        company_name = company_name[0].company_name
+        await knex('company_data').update({'registration_key': random})
+            .where({"company_name": company_name})
+            .then(response => res.sendStatus(200))
+    } else {
+        await knex('company_data').insert(req.body)
+        .then(response => {
+            res.status(201).send('New unit added')
+        })
+    }
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`))

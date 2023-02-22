@@ -9,7 +9,6 @@ import LeadersPortal from './components/LeadersPortal';
 import UpdateInfo from './components/updateInfo';
 import Confirm from './components/confirm';
 
-
 function App() {
   return (
     <>
