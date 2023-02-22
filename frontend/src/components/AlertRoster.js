@@ -47,7 +47,6 @@ export default function AlertRoster () {
         if (button === ""){
             fetch('http://localhost:8080/creds', {credentials: "include"})
                 .then(res => {
-                    console.log(res.status)
                     if(res.status === 250){
                         setLeaderPortalButton(<Button variant="dark" onClick={() => {navigate('/leadersportal')}}>Leader's Portal</Button>)
                     } else {

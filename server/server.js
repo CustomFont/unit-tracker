@@ -95,7 +95,6 @@ app.get('/logout', (req, res) => {
 })
 // check credentials, leader gets 250, else 200
 app.get('/creds', (req, res) => {
-    console.log(req.session)
     if (req.session.is_leader === true){
         res.status(250).send('Leader')
     } else {
