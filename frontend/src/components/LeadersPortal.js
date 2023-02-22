@@ -77,8 +77,7 @@ export default function LeadersPortal () {
     useEffect(() => {
         fetch('http://localhost:8080/units', { credentials: 'include' })
             .then((res) => res.json())
-            .then(data => setRegKey(data[1].registration_key))
-            //console.log()
+            .then(data => setRegKey(data[0].registration_key))
     }, [])  
     
     return (

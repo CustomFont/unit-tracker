@@ -168,9 +168,15 @@ app.delete('/:DODID',(req, res) => {
 
 //get company_name
 app.get('/units', (req, res) => {
-    knex('company_data').select('*').orderBy('id', 'asc').then(data => res.status(200).send(data))
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        if (Number.isInteger(company_id)){
+            knex('company_data').select('registration_key').where({ "id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
+    }
 })
-
 
 //get soldier by company_id
 app.get('/company', (req, res) => {
