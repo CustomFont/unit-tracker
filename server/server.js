@@ -95,10 +95,11 @@ app.get('/logout', (req, res) => {
 })
 // check credentials, leader gets 250, else 200
 app.get('/creds', (req, res) => {
+    console.log(req.session)
     if (req.session.authenticated === true){
         res.status(250).send('Leader')
     } else {
-        res.status.send(200).send("Not Leader")
+        res.status(200).send("Not Leader")
     }
 })
 //---------------Soldier Data---------------//
