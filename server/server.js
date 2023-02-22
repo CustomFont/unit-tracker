@@ -87,10 +87,19 @@ app.post('/login', async (req, res) => {
         }
     }
 })
+
 app.get('/logout', (req, res) => {
     req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
+})
+// check credentials, leader gets 250, else 200
+app.get('/creds', (req, res) => {
+    if (req.session.authenticated === true){
+        res.status(250).send('Leader')
+    } else {
+        res.status.send(200).send("Not Leader")
+    }
 })
 //---------------Soldier Data---------------//
 //get all users
