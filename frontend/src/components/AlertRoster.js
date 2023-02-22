@@ -53,7 +53,11 @@ export default function AlertRoster () {
                     }
                 })        
         }
-        return button
+        if(button === ""){
+            return
+        } else{
+            return button
+        }
     }
     const renderHelper = () => {
         if(searchInput === '') {
