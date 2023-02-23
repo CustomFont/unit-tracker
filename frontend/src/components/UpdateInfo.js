@@ -1,4 +1,3 @@
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -8,8 +7,11 @@ import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
+import LogoutButton from './LogoutButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function UpdateInfo() {
+    const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [ errors, setErrors ] = useState({})
     const [show, setShow] = useState(false);
@@ -49,7 +51,6 @@ export default function UpdateInfo() {
             body: JSON.stringify(newUserData),
             credentials: 'include'
         };
-        console.log(newUserData)
         const newErrors = findFormErrors();
 
         if (Object.keys(newErrors).length > 0) {
@@ -137,10 +138,27 @@ export default function UpdateInfo() {
 
    return (
         <>
+<<<<<<< HEAD
         <Container fluid>
             <Row>
                 <Col>
                     <h1>Update Information</h1>
+=======
+        <Container>
+            <Col>
+                <Button id="alertRosterButton" variant="dark" type="submit" onClick={() => navigate('/alertroster')}>
+                    Alert Roster
+                </Button>
+                <LogoutButton />
+            </Col>
+            <Row>   
+                <Col>
+                    <h1>Update Information</h1>
+                </Col>
+            </Row>
+            <br />
+            <br />
+>>>>>>> c4fadf86b86a13529adafd267404ef0bdc37776b
             <Row>
                 <Col md={{ span: 4, offset: 4 }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>

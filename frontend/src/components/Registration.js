@@ -180,7 +180,7 @@ export default function Registration() {
                         <Form.Select name="company" value={userData.company_id} onChange={(e) => setUserData(userData => ({...userData, "company_id": e.target.value}))}>
                             {arrOfCompanies.map((n, i) => {
                                 return (
-                                    <option key={i}>{`${n.company_name}`}</option>
+                                    <option key={i + 1} value={i + 1}>{`${n.company_name}`}</option>
                                 )
                             })}
                         </Form.Select>
