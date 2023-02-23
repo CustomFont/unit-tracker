@@ -9,7 +9,6 @@ const config = require('./knexfile.js');
 const { response } = require('express');
 const knex = require('knex')(config['development']);
 
-
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
@@ -17,8 +16,6 @@ app.use(cors({
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 }));
-
-
 
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
@@ -109,6 +106,7 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.status(200).send('Logout Successful')
 })
+
 // check credentials, leader gets 250, else 200
 app.get('/creds', (req, res) => {
     if (req.session.is_leader === true){
