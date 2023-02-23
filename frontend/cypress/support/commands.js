@@ -1,4 +1,5 @@
 import '@testing-library/cypress/add-commands'
+require('cypress-plugin-tab');
 
 // ***********************************************
 // This example commands.js shows you how to

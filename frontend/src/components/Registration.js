@@ -64,7 +64,7 @@ export default function Registration() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/units', { credentials: 'include' })
+        fetch('http://localhost:8080/units')
             .then(response => response.json())
             .then(data => setCompanies(data))
     }, [])
@@ -226,65 +226,10 @@ export default function Registration() {
                     <Form.Control required type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Platoon</Form.Label>
-                                <Form.Control type="text" placeholder="Platoon" />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>PMOS</Form.Label>
-                                <Form.Control type="text" placeholder="Primary MOS" name="mos" value={userData.mos} isInvalid={!!errors.mos} onChange={(e) => [setUserData(userData => ({...userData, "mos": e.target.value})), setField("mos", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.mos}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Date of Birth</Form.Label>
-                                <Form.Control required type="date" placeholder="Date of Birth" name="dob" value={userData.DOB} isInvalid={!!errors.DOB} onChange={(e) => [setUserData(userData => ({...userData, "DOB": e.target.value})), setField("DOB", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.DOB}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Age</Form.Label>
-                                <Form.Control required type="text" placeholder="Age" />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Weight</Form.Label>
-                                <Form.Control type="text" placeholder="Weight" name="weight" value={userData.weight} isInvalid={!!errors.weight} onChange={(e) => [setUserData(userData => ({...userData, "weight": e.target.value})), setField("weight", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.weight}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Height</Form.Label>
-                                <Form.Control type="text" placeholder="Height in Centimeters" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.height}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Blood Type</Form.Label>
-                                <Form.Control required type="text" placeholder="Blood Type" name="bloodtype" value={userData.blood_type} isInvalid={!!errors.blood_type} onChange={(e) => [setUserData(userData => ({...userData, "blood_type": e.target.value})), setField("blood_type", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.blood_type}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Phone Number</Form.Label>
-                                <Form.Control type="text" placeholder="Phone number" name="phonenumber" value={userData.phone_number} isInvalid={!!errors.phone_number} onChange={(e) => [setUserData(userData => ({...userData, "phone_number": e.target.value})), setField("phone_number", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.phone_number}</Form.Control.Feedback> 
-                            </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>Address</Form.Label>
-                                <Form.Control type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
-                                <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
-                            </Form.Group>
-
+                
                             <Button variant="primary" type="submit">
                                 Submit
-                            </Button>
+                            </Button> 
 
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>

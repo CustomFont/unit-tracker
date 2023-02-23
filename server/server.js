@@ -43,7 +43,7 @@ app.use(async (req, res, next) => {
         req.session.authenticated = true;
         next();
     } else if (req.path === '/units') {
-        req.session.authenticated = true;
+        //req.session.authenticated = true;
         next();
     } else if (req.path === '/users') { //remove this once done
         req.session.authenticated = true;
@@ -194,8 +194,8 @@ app.delete('/:DODID',(req, res) => {
     }
 })
 
-//get company_name
-app.get('/units', (req, res) => {
+//get company registration keys
+app.get('/regkeys', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
         if (Number.isInteger(company_id)){
@@ -205,6 +205,12 @@ app.get('/units', (req, res) => {
         res.sendStatus(404)
     }
 })
+
+//get unit
+app.get('/units', (req, res) => {
+        knex('company_data').select('id', 'company_name').then(data => res.send(data))
+        //res.sendStatus(404)
+    })
 
 //get soldier by company_id
 app.get('/company', (req, res) => {
