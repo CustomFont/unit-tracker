@@ -9,6 +9,7 @@ const config = require('./knexfile.js');
 const { response } = require('express');
 const knex = require('knex')(config['development']);
 
+
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
@@ -16,6 +17,8 @@ app.use(cors({
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 }));
+
+
 
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
@@ -45,6 +48,15 @@ app.use(async (req, res, next) => {
     } else if (req.path === '/units') {
         req.session.authenticated = true;
         next();
+    } else if (req.path === '/users') { //remove this once done
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/update') { //remove this once done
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/confirm') { //remove this once done
+        req.session.authenticated = true;
+        next();
     } else {
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
@@ -71,6 +83,7 @@ app.post('/login', async (req, res) => {
                     let company_id = await knex('soldier_data').select('company_id').where({ "DODID": DBdodid })
                     company_id = company_id[0].company_id;
                     is_leader = is_leader[0].is_leader;
+                    req.session.DODID = DBdodid;
                     req.session.company_id = company_id;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
@@ -108,6 +121,23 @@ app.get('/creds', (req, res) => {
 //get all users
 app.get('/users', async (req, res, next) => {
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
+})
+
+//get specific user by DODID
+app.get('/soldier-record', async (req, res, next) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
+    }
+})
+
+app.patch('/update', (req, res) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.sendStatus(201))
+    } else {
+        res.sendStatus(400)
+    }
 })
 
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
