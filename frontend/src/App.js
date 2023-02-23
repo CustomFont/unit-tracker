@@ -10,11 +10,13 @@ import UpdateInfo from './components/UpdateInfo';
 import Confirm from './components/Confirm';
 import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css'
 import ClassificationBanner from '@mobdata/classification-banner';
+import { RuxClassification } from '@astrouxds/rux-classification-marking/rux-classification-marking.js'
 
 function App() {
   return (
     <>
-        <ClassificationBanner classification="secret"/>
+        <ClassificationBanner classification="cui"/>
+    {/* <rux-classification-marking classification="controlled"></rux-classification-marking> */}
       <br />
       <div className="App">
         <Routes>

@@ -4,6 +4,8 @@ import Table from 'react-bootstrap/Table'
 import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
 import Button from "react-bootstrap/esm/Button"
+import '../styles/AlertRoster.css'
+
 
 export default function AlertRoster () {
     const [list, setList] = useState([])
