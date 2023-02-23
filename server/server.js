@@ -9,6 +9,7 @@ const config = require('./knexfile.js');
 const { response } = require('express');
 const knex = require('knex')(config['development']);
 
+
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
@@ -17,18 +18,14 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
+
+
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
 const store = new KnexSessionStore({
   knex,
   tablename: 'sessions',
 });
-
-app.use(cors({
-    credentials: true, // important part here
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200
-}));
 
 // options for session
 app.use(session({
@@ -45,10 +42,19 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/registration') {
+    } else if (req.path === '/register') {
         req.session.authenticated = true;
         next();
     } else if (req.path === '/units') {
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/users') { //remove this once done
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/update') { //remove this once done
+        req.session.authenticated = true;
+        next();
+    } else if (req.path === '/confirm') { //remove this once done
         req.session.authenticated = true;
         next();
     } else {
@@ -74,10 +80,13 @@ app.post('/login', async (req, res) => {
                 let attemptPassword = await bcrypt.compare(req.body.SSN, DBSSN[0].SSN)
                 if (attemptPassword === true){
                     let is_leader = await knex('soldier_data').select('is_leader').where({ "DODID": DBdodid })
+                    let company_id = await knex('soldier_data').select('company_id').where({ "DODID": DBdodid })
+                    company_id = company_id[0].company_id;
                     is_leader = is_leader[0].is_leader;
+                    req.session.DODID = DBdodid;
+                    req.session.company_id = company_id;
                     req.session.is_leader = is_leader;
                     req.session.authenticated = true;
-                    console.log(req.session)
                     if( is_leader ){
                         res.status(250).send('Leader Login Successful')
                     } else {
@@ -94,10 +103,19 @@ app.post('/login', async (req, res) => {
         }
     }
 })
+
 app.get('/logout', (req, res) => {
     req.session.authenticated = false;
     req.session.destroy();
     res.status(200).send('Logout Successful')
+})
+// check credentials, leader gets 250, else 200
+app.get('/creds', (req, res) => {
+    if (req.session.is_leader === true){
+        res.status(250).send('Leader')
+    } else {
+        res.status(200).send("Not Leader")
+    }
 })
 //---------------Soldier Data---------------//
 //get all users
@@ -105,11 +123,32 @@ app.get('/users', async (req, res, next) => {
     knex('soldier_data').select('*').orderBy('last_name', 'asc').then(data => res.status(200).send(data))
 })
 
+//get specific user by DODID
+app.get('/soldier-record', async (req, res, next) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
+    }
+})
+
+app.patch('/update', (req, res) => {
+    let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.sendStatus(201))
+    } else {
+        res.sendStatus(400)
+    }
+})
+
 //get all for alert roster (pulls rank, name, phone number from all associated with that company id)
-app.get('/alertroster/:company_id', (req, res) => {
-    let idParam = parseInt(req.params.company_id);
-    if (Number.isInteger(idParam)){
-    knex('soldier_data').select('rank', 'last_name', 'first_name', 'phone_number').where({company_id: idParam}).then(data => res.send(data))
+app.get('/alertroster', (req, res) => {
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        if (Number.isInteger(company_id)){
+            knex('soldier_data').where({ "company_id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
     }
 })
 
@@ -191,7 +230,7 @@ app.post('/addunit', async (req, res) => {
     const randomKey = () => {
         let regKey = '';
         let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        for (let i =0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             regKey += possible.charAt(Math.floor(Math.random() * possible.length));
         }
         return regKey;
