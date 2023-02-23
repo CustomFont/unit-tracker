@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.classification{
+  background-color: #007a33;
+  color: white;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -13,7 +18,4 @@
   color: white;
 }
 
-/* .container {
-  background-color: dimgray;
-} */
 

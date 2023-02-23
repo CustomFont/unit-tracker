@@ -8,9 +8,7 @@ export default function Confirm() {
 
     const queryString = window.location.href;
     const dod = queryString.substring(queryString.indexOf('?')+31)
-    console.log(dod)
 
-    
 
     return (
         <>

@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@astrouxds/astro-web-components": "^7.8.0",
+    "@astrouxds/rux-classification-marking": "^5.3.0",
     "cypress": "^12.6.0",
     "express": "^4.18.2",
     "knex": "^2.4.2",

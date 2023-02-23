@@ -92,7 +92,7 @@ export default function Login() {
                             </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
+                        <Button id="login" variant="secondary" type="submit" onClick={onFormSubmit}>
                             Login
                         </Button>
                         <br />
@@ -102,14 +102,14 @@ export default function Login() {
                         </Button>
                         <br />
                         <br />
-                        <Button id="leadersportal" variant="danger" type="submit" onClick={onFormSubmit}>
+                        <Button id="leadersportal" variant="secondary" type="submit" onClick={onFormSubmit}>
                             Leaders' Portal
                         </Button>
                     </Form>
 
                     <br />
                     <LinkContainer to='/registration'>
-                        <Button id="registrationButton" variant="success" type="button">
+                        <Button id="registrationButton" variant="secondary" type="button">
                             Registration
                         </Button>
                     </LinkContainer>
