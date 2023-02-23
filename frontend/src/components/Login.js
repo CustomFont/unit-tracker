@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap'
@@ -66,49 +69,55 @@ export default function Login() {
 
     return (
         <>
-            <Form noValidate>
-                <Form.Group className="mb-3" controlId="formBasicDod">
-                    <Form.Label>DOD ID</Form.Label>
-                    <Form.Control required type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} isInvalid={errors.DODID} />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter a valid 10 digit DOD ID.
-                    </Form.Control.Feedback>
-                    {/* <Form.Text className="text-muted" >
-                    We'll never share your DOD ID with anyone else.
-                    </Form.Text> */}
-                </Form.Group>
+        <Container fluid="md">
+            <Row>
+                <Col>
+                    <Form noValidate>
+                        <Form.Group className="mb-3" controlId="formBasicDod">
+                            <Form.Label>DOD ID</Form.Label>
+                            <Form.Control required type="text" placeholder="Enter DOD ID" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "DODID": e.target.value }))} value={userLogin.DODID} isInvalid={errors.DODID} />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a valid 10 digit DOD ID.
+                            </Form.Control.Feedback>
+                            {/* <Form.Text className="text-muted" >
+                            We'll never share your DOD ID with anyone else.
+                            </Form.Text> */}
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Social Security Number</Form.Label>
-                    <Form.Control required type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} isInvalid={errors.SSN} />
-                    <Form.Control.Feedback type="invalid">
-                        Please enter a valid 9 digit Social Security Number (no dashes).
-                    </Form.Control.Feedback>
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Social Security Number</Form.Label>
+                            <Form.Control required type="password" placeholder="SSN" onChange={(e) => setUserLogin(userLogin => ({ ...userLogin, "SSN": e.target.value }))} value={userLogin.SSN} isInvalid={errors.SSN} />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a valid 9 digit Social Security Number (no dashes).
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-                <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
-                    Login
-                </Button>
-                <br />
-                <br />
-                <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
-                    Alert Roster
-                </Button>
-                <br />
-                <br />
-                <Button id="leadersportal" variant="danger" type="submit" onClick={onFormSubmit}>
-                    Leaders' Portal
-                </Button>
-            </Form>
+                        <Button id="login" variant="primary" type="submit" onClick={onFormSubmit}>
+                            Login
+                        </Button>
+                        <br />
+                        <br />
+                        <Button id="alertRosterButton" variant="secondary" type="submit" onClick={onFormSubmit}>
+                            Alert Roster
+                        </Button>
+                        <br />
+                        <br />
+                        <Button id="leadersportal" variant="danger" type="submit" onClick={onFormSubmit}>
+                            Leaders' Portal
+                        </Button>
+                    </Form>
 
-            <br />
-            <LinkContainer to='/registration'>
-                <Button id="registrationButton" variant="success" type="button">
-                    Registration
-                </Button>
-            </LinkContainer>
-            <br />
-            <br />
+                    <br />
+                    <LinkContainer to='/registration'>
+                        <Button id="registrationButton" variant="success" type="button">
+                            Registration
+                        </Button>
+                    </LinkContainer>
+                    <br />
+                    <br />
+                </Col>
+            </Row>
+        </Container>
         </>
     )
 }

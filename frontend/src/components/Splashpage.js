@@ -3,19 +3,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Login from './Login';
 
-
 export default function Splashpage() {
     return (
-        <Container>
+        <Container fluid="md">
             <Row>
                 <Col><h1>Unit Tracker</h1></Col>
             </Row>
             <br />
             <br />
             <Row>
-               <Col xs={5} md={{ span: 4, offset: 4 }}>
+               {/* <Col xs={5} md={{ span: 4, offset: 4 }}> */}
                 <Login /> 
-               </Col> 
+               {/* </Col>  */}
             </Row>
         </Container>
     )
