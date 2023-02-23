@@ -104,8 +104,16 @@ export default function UpdateInfo() {
         })
     }
 
+    let DOB = new Date(userData[0].DOB.replace('T', ' ').replace('Z', ''))
+
    return (
         <>
+<<<<<<< HEAD
+        <Container fluid>
+            <Row>
+                <Col>
+                    <h1>Update Information</h1>
+=======
         <Container>
             <Col>
                 <Button id="alertRosterButton" variant="dark" type="submit" onClick={() => navigate('/alertroster')}>
@@ -120,8 +128,9 @@ export default function UpdateInfo() {
             </Row>
             <br />
             <br />
+>>>>>>> c4fadf86b86a13529adafd267404ef0bdc37776b
             <Row>
-                <Col xs={5} md={{ span: 4, offset: 4 }}>
+                <Col md={{ span: 4, offset: 4 }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Last Name</Form.Label>
@@ -172,7 +181,7 @@ export default function UpdateInfo() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of Birth</Form.Label>
-                               <Form.Control disabled type="text" placeholder={userData[0].DOB} name="dob" value={newUserData.DOB} />
+                               <Form.Control disabled type="text" placeholder={DOB.toDateString()} name="dob" value={newUserData.DOB} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Weight</Form.Label>
@@ -218,6 +227,11 @@ export default function UpdateInfo() {
             </Form>
                 </Col>
             </Row>
+                
+                </Col>
+            </Row>
+            <br />
+            <br />
         </Container>
         </>
    ) 
