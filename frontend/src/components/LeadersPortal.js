@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/esm/Button"
+import Button from "react-bootstrap/Button"
 
 export default function LeadersPortal () {
     const [list, setList] = useState([])
