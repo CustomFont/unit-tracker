@@ -121,132 +121,152 @@ export default function Registration() {
 
    return (
         <>
-        <Container>
-            <Row>
-                <Col><h1>Registration</h1></Col>
-            </Row>
-            <br />
-            <br />
-            <Row>
-                <Col xs={5} md={{ span: 4, offset: 4 }}>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control required type="text" placeholder="Last Name" name="lastName" isInvalid={ !!errors.last_name} value={userData.last_name} onChange={(e) => [setUserData(userData => ({...userData, "last_name": e.target.value})), setField("last_name", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.last_name}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control required type="text" placeholder="First Name" name="firstName" isInvalid={!!errors.first_name} value={userData.first_name} onChange={(e) => [setUserData(userData => ({...userData, "first_name": e.target.value})), setField("first_name", e.target.value)]} />
-                    <Form.Control.Feedback>Looks Good!</Form.Control.Feedback> 
-                    <Form.Control.Feedback type='invalid'>{errors.first_name}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Middle Initial</Form.Label>
-                    <Form.Control type="text" placeholder="Middle Initial" name="middleInitial" value={userData.middle_initial} onChange={(e) => setUserData(userData => ({...userData, "middle_initial": e.target.value}))} />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>SSN</Form.Label>
-                    <Form.Control required type="text" placeholder="Social Security Number" name="ssn" isInvalid={!!errors.SSN} value={userData.SSN} onChange={(e) => [setUserData(userData => ({...userData, "SSN": e.target.value})), setField("SSN", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.SSN}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>DOD ID</Form.Label>
-                    <Form.Control required type="text" placeholder="DOD ID" name="DODID" isInvalid={!!errors.DODID} value={userData.DODID} onChange={(e) => [setUserData(userData => ({...userData, "DODID": e.target.value})), setField("DODID", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.DODID}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Rank</Form.Label>
-                        <Form.Select value={userData.rank} onChange={(e) => setUserData(userData => ({...userData, "rank": e.target.value}))}>
-                            <option>PV1</option>
-                            <option>PV2</option>
-                            <option>PFC</option>
-                            <option>SPC</option>
-                            <option>CPL</option>
-                            <option>SGT</option>
-                            <option>SSG</option>
-                            <option>SFC</option>
-                        </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Organization</Form.Label>
-                        <Form.Select name="company" value={userData.company_id} onChange={(e) => setUserData(userData => ({...userData, "company_id": e.target.value}))}>
-                            {arrOfCompanies.map((n, i) => {
-                                return (
-                                    <option key={i + 1} value={i + 1}>{`${n.company_name}`}</option>
-                                )
-                            })}
-                        </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Registration Key</Form.Label>
-                    <Form.Control required type="text" placeholder="Registration Key" name="registration_key" isInvalid={!!errors.registration_key} value={userData.registration_key} onChange={(e) => [setUserData(userData => ({...userData, "registration_key": e.target.value})), setField("registration_key", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.registration_key}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Platoon</Form.Label>
-                    <Form.Control type="text" placeholder="Platoon" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>PMOS</Form.Label>
-                    <Form.Control type="text" placeholder="Primary MOS" name="mos" value={userData.mos} isInvalid={!!errors.mos} onChange={(e) => [setUserData(userData => ({...userData, "mos": e.target.value})), setField("mos", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.mos}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control required type="date" placeholder="Date of Birth" name="dob" value={userData.DOB} isInvalid={!!errors.DOB} onChange={(e) => [setUserData(userData => ({...userData, "DOB": e.target.value})), setField("DOB", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.DOB}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control required type="text" placeholder="Age" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Weight</Form.Label>
-                    <Form.Control type="text" placeholder="Weight" name="weight" value={userData.weight} isInvalid={!!errors.weight} onChange={(e) => [setUserData(userData => ({...userData, "weight": e.target.value})), setField("weight", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.weight}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Height</Form.Label>
-                    <Form.Control type="text" placeholder="Height in Centimeters" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.height}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Blood Type</Form.Label>
-                    <Form.Control required type="text" placeholder="Blood Type" name="bloodtype" value={userData.blood_type} isInvalid={!!errors.blood_type} onChange={(e) => [setUserData(userData => ({...userData, "blood_type": e.target.value})), setField("blood_type", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.blood_type}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Phone Number</Form.Label>
-                    <Form.Control type="text" placeholder="Phone number" name="phonenumber" value={userData.phone_number} isInvalid={!!errors.phone_number} onChange={(e) => [setUserData(userData => ({...userData, "phone_number": e.target.value})), setField("phone_number", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.phone_number}</Form.Control.Feedback> 
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
-                    <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+            <Container>
+                <Row>
+                    <Col>
+                        <h1>Registration</h1>
+                    </Col>
+                </Row>
+                <br />
+                <br />
+                <Row>
+                    <Col xs={5} md={{ span: 4, offset: 4 }}>
+                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Success!</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Successfully Registered! Click close to return to the login screen.</Modal.Body>
-                    <Modal.Footer>
-                        <LinkContainer to='/'>
-                            <Button variant="secondary" type="button">
-                                Close
+                            <Form.Group className="mb-3">
+                                <Form.Label>Last Name</Form.Label>
+                                <Form.Control required type="text" placeholder="Last Name" name="lastName" isInvalid={ !!errors.last_name} value={userData.last_name} onChange={(e) => [setUserData(userData => ({...userData, "last_name": e.target.value})), setField("last_name", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.last_name}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>First Name</Form.Label>
+                                <Form.Control required type="text" placeholder="First Name" name="firstName" isInvalid={!!errors.first_name} value={userData.first_name} onChange={(e) => [setUserData(userData => ({...userData, "first_name": e.target.value})), setField("first_name", e.target.value)]} />
+                                <Form.Control.Feedback>Looks Good!</Form.Control.Feedback> 
+                                <Form.Control.Feedback type='invalid'>{errors.first_name}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Middle Initial</Form.Label>
+                                <Form.Control type="text" placeholder="Middle Initial" name="middleInitial" value={userData.middle_initial} onChange={(e) => setUserData(userData => ({...userData, "middle_initial": e.target.value}))} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>SSN</Form.Label>
+                                <Form.Control required type="text" placeholder="Social Security Number" name="ssn" isInvalid={!!errors.SSN} value={userData.SSN} onChange={(e) => [setUserData(userData => ({...userData, "SSN": e.target.value})), setField("SSN", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.SSN}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>DOD ID</Form.Label>
+                                <Form.Control required type="text" placeholder="DOD ID" name="DODID" isInvalid={!!errors.DODID} value={userData.DODID} onChange={(e) => [setUserData(userData => ({...userData, "DODID": e.target.value})), setField("DODID", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.DODID}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Rank</Form.Label>
+                                    <Form.Select value={userData.rank} onChange={(e) => setUserData(userData => ({...userData, "rank": e.target.value}))}>
+                                        <option>PV1</option>
+                                        <option>PV2</option>
+                                        <option>PFC</option>
+                                        <option>SPC</option>
+                                        <option>CPL</option>
+                                        <option>SGT</option>
+                                        <option>SSG</option>
+                                        <option>SFC</option>
+                                    </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Organization</Form.Label>
+                                    <Form.Select name="company" value={userData.company_id} onChange={(e) => setUserData(userData => ({...userData, "company_id": e.target.value}))}>
+                                        {arrOfCompanies.map((n, i) => {
+                                            return (
+                                                <option key={i + 1} value={i + 1}>{`${n.company_name}`}</option>
+                                            )
+                                        })}
+                                    </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Registration Key</Form.Label>
+                                <Form.Control required type="text" placeholder="Registration Key" name="registration_key" isInvalid={!!errors.registration_key} value={userData.registration_key} onChange={(e) => [setUserData(userData => ({...userData, "registration_key": e.target.value})), setField("registration_key", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.registration_key}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Platoon</Form.Label>
+                                <Form.Control type="text" placeholder="Platoon" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>PMOS</Form.Label>
+                                <Form.Control type="text" placeholder="Primary MOS" name="mos" value={userData.mos} isInvalid={!!errors.mos} onChange={(e) => [setUserData(userData => ({...userData, "mos": e.target.value})), setField("mos", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.mos}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Date of Birth</Form.Label>
+                                <Form.Control required type="date" placeholder="Date of Birth" name="dob" value={userData.DOB} isInvalid={!!errors.DOB} onChange={(e) => [setUserData(userData => ({...userData, "DOB": e.target.value})), setField("DOB", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.DOB}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Age</Form.Label>
+                                <Form.Control required type="text" placeholder="Age" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Weight</Form.Label>
+                                <Form.Control type="text" placeholder="Weight" name="weight" value={userData.weight} isInvalid={!!errors.weight} onChange={(e) => [setUserData(userData => ({...userData, "weight": e.target.value})), setField("weight", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.weight}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Height</Form.Label>
+                                <Form.Control type="text" placeholder="Height in Centimeters" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.height}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Blood Type</Form.Label>
+                                <Form.Control required type="text" placeholder="Blood Type" name="bloodtype" value={userData.blood_type} isInvalid={!!errors.blood_type} onChange={(e) => [setUserData(userData => ({...userData, "blood_type": e.target.value})), setField("blood_type", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.blood_type}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Phone Number</Form.Label>
+                                <Form.Control type="text" placeholder="Phone number" name="phonenumber" value={userData.phone_number} isInvalid={!!errors.phone_number} onChange={(e) => [setUserData(userData => ({...userData, "phone_number": e.target.value})), setField("phone_number", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.phone_number}</Form.Control.Feedback> 
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
+                                <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
+                            </Form.Group>
+                            
+                            <Button variant="primary" type="submit">
+                                Submit
                             </Button>
-                        </LinkContainer>
-                    </Modal.Footer>
-                </Modal>
-            </Form>
-                </Col>
-            </Row>
-        </Container>
+
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Success!</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Successfully Registered! Click close to return to the login screen.</Modal.Body>
+                                <Modal.Footer>
+                                    <LinkContainer to='/'>
+                                        <Button variant="secondary" type="button">
+                                            Close
+                                        </Button>
+                                    </LinkContainer>
+                                </Modal.Footer>
+                            </Modal>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
    ) 
 }
