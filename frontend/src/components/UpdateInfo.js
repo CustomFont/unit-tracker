@@ -133,16 +133,16 @@ export default function UpdateInfo() {
         })
     }
 
+    let DOB = new Date(userData[0].DOB.replace('T', ' ').replace('Z', ''))
+
    return (
         <>
-        <Container>
+        <Container fluid>
             <Row>
-                <Col><h1>Update Information</h1></Col>
-            </Row>
-            <br />
-            <br />
+                <Col>
+                    <h1>Update Information</h1>
             <Row>
-                <Col xs={5} md={{ span: 4, offset: 4 }}>
+                <Col md={{ span: 4, offset: 4 }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Last Name</Form.Label>
@@ -197,7 +197,7 @@ export default function UpdateInfo() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of Birth</Form.Label>
-                               <Form.Control disabled type="text" placeholder={userData[0].DOB} name="dob" value={newUserData.DOB} />
+                               <Form.Control disabled type="text" placeholder={DOB.toDateString()} name="dob" value={newUserData.DOB} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Weight</Form.Label>
@@ -243,6 +243,11 @@ export default function UpdateInfo() {
             </Form>
                 </Col>
             </Row>
+                
+                </Col>
+            </Row>
+            <br />
+            <br />
         </Container>
         </>
    ) 
