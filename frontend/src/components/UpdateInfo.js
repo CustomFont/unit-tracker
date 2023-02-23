@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import InputGroup from 'react-bootstrap/InputGroup';
 import LogoutButton from './LogoutButton';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +15,6 @@ export default function UpdateInfo() {
     const [ errors, setErrors ] = useState({})
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const [ form, setForm ] = useState({})
 
     const [companies, setCompanies] = useState({})
@@ -39,7 +37,6 @@ export default function UpdateInfo() {
         "address": ""
     }])
     const [newUserData, setNewUserData] = useState({})
-    
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -82,43 +79,16 @@ export default function UpdateInfo() {
     }, [])
     
     let arrOfCompanies = []
-
     for (const c in companies) {
         arrOfCompanies.push(companies[c])
     }
 
     const findFormErrors = () => {
         const {
-            // DODID,
-            // last_name,
-            // first_name,
-            // middle_initial,
-            // rank,
-            // company_id,
-            // registration_key,
-            // mos,
-            // DOB,
-            // weight,
-            // height,
-            // hair_color,
-            // eye_color,
-            // blood_type,
             phone_number
-            // address,
-            // is_leader
         } = form;
         const newErrors = {};
-        // if (!DODID || DODID === '' || DODID.length !== 10) newErrors.DODID = 'Please enter your DODID'
-        // if (!last_name || last_name === '') newErrors.last_name = 'Please enter your last name'
-        // if (!first_name || first_name === '') newErrors.first_name = 'Please enter your first name'
-        // if (!registration_key || registration_key === '') newErrors.registration_key = 'Enter a correct Registration Key'
-        // if (!mos || mos === '') newErrors.mos = 'Enter your MOS'
-        // if (!DOB || DOB === '') newErrors.DOB = 'Enter your date of birth'
-        // if (!weight || weight === 0) newErrors.weight = 'Enter your weight'
-        // if (!height || height === 0) newErrors.height = 'Enter your height'
-        // if (!blood_type || blood_type === 0) newErrors.blood_type = 'Enter your blood type'
         if (phone_number && phone_number.length !== 10) newErrors.phone_number = 'Enter your phone number'
-        // if (!address || address === 0) newErrors.address = 'Enter your home address'
 
         return newErrors
     }
@@ -195,10 +165,6 @@ export default function UpdateInfo() {
                             })}
                         </Form.Select>
                 </Form.Group>
-                {/* <Form.Group className="mb-3">
-                    <Form.Label>Platoon</Form.Label>
-                    <Form.Control type="text" placeholder="Platoon" />
-                </Form.Group> */}
                 <Form.Group className="mb-3">
                     <Form.Label>PMOS</Form.Label>
                                <Form.Control type="text" placeholder={userData[0].mos} name="mos" value={newUserData.mos} isInvalid={!!errors.mos} onChange={(e) => [setNewUserData(newUserData => ({ ...newUserData, "mos": e.target.value})), setField("mos", e.target.value)]} />
