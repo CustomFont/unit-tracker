@@ -27,6 +27,12 @@ export default function LeadersPortal () {
                 || user.DODID.toString().includes(searchInput)))
         } 
     }, [searchInput])
+    
+    useEffect(() => {
+        fetch('http://localhost:8080/units', { credentials: 'include' })
+            .then((res) => res.json())
+            .then(data => setRegKey(data[0].registration_key))
+    }, [])
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -41,6 +47,19 @@ export default function LeadersPortal () {
             || user.DODID.toString().includes(searchInput)))
     }
 
+    const handleDelete = (e) => {
+        e.preventDefault();
+        const confirmBox = window.confirm(
+            "Do you really want to delete this Soldier?"
+            )
+            if (confirmBox === true) {
+                fetch(`http://localhost:8080/${e.target.id}`, { credentials: 'include', method: 'DELETE' })
+                setList(list.filter(item => item.DODID !== parseInt(e.target.id)))
+            } else {
+                return;
+            }
+    }
+    
     const renderHelper = () => {
         if(searchInput === '') {
             return list.map(data => {
@@ -53,6 +72,7 @@ export default function LeadersPortal () {
                         <td>{data.mos}</td>
                         <td>{data.phone_number.toString().replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}</td>
                         <td>{data.address}</td>
+                        <td><img src='https://static.thenounproject.com/png/3058-200.png' alt='trash' id={data.DODID} width={25} height={25} onClick={handleDelete}/></td>
                     </tr>
                 )
             })
@@ -68,23 +88,19 @@ export default function LeadersPortal () {
                             <td>{data.mos}</td>
                             <td>{data.phone_number.toString().replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}</td>
                             <td>{data.address}</td>
+                            <td><img src='https://static.thenounproject.com/png/3058-200.png' alt='trash' id={data.DODID} width={25} height={25} onClick={handleDelete}/></td>
                         </tr>
                 )
             })
         }
     }
     
-    useEffect(() => {
-        fetch('http://localhost:8080/units', { credentials: 'include' })
-            .then((res) => res.json())
-            .then(data => setRegKey(data[0].registration_key))
-    }, [])  
-    
     return (
         <div className="alert-container">
             <h1>Leader's Portal</h1>
             <LogoutButton />
             <Button variant="dark" onClick={() => {navigate('/alertroster')}}>Alert Roster</Button>
+            <br></br>
             <p>{(`Your unit's registration key is ${regKey}.`)}</p>
             <form onSubmit={onSubmit}>
                 <input type='text' placeholder="Search" onChange={handleChange} value={searchInput} />
@@ -102,6 +118,7 @@ export default function LeadersPortal () {
                             <th scope='col'>MOS</th>
                             <th scope='col'>Phone Number</th>
                             <th scope='col'>Address</th>
+                            <th scope='col'>Delete Record</th>
                         </tr>
                     </thead>
                     <tbody>
