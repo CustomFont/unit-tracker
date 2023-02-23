@@ -152,6 +152,18 @@ app.get('/alertroster', (req, res) => {
     }
 })
 
+// get all for leaders portal (pulls info for all soldiers accociated with that company id)
+app.get('/leadersportal', (req, res) => {
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        if (Number.isInteger(company_id)){
+            knex('soldier_data').orderBy('last_name', 'asc').where({ "company_id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
+    }
+})
+
 //get all by company_id
 app.get('/users/:company_id', (req, res) => {
     let idParam = parseInt(req.params.company_id);
@@ -163,7 +175,7 @@ app.get('/users/:company_id', (req, res) => {
 })
 
 //patch soldier data
-app.patch('/users/:DODID', (req, res) => {
+app.patch('/update/:DODID', (req, res) => {
     let idParam = parseInt(req.params.DODID);
     if(Number.isInteger(idParam)) {
         knex('soldier_data').select('DODID').where({DODID: idParam})
@@ -178,17 +190,23 @@ app.delete('/:DODID',(req, res) => {
     let idParam = parseInt(req.params.DODID);
     if(Number.isInteger(idParam)) {
         knex('soldier_data').select('DODID').where({DODID: idParam})
-        .delete().then(data => res.sendStatus(204).send('User profile has been deleted'))
+        .delete().then(data => res.status(204).send('User profile has been deleted'))
     } else {
-        res.status(400).sendStatus(400)
+        res.sendStatus(400)
     }
 })
 
 //get company_name
 app.get('/units', (req, res) => {
-    knex('company_data').select('*').orderBy('id', 'asc').then(data => res.status(200).send(data))
+    if(req.session.company_id){
+        let company_id = req.session.company_id;
+        if (Number.isInteger(company_id)){
+            knex('company_data').select('registration_key').where({ "id": company_id }).then(data => res.send(data))
+        }
+    } else {
+        res.sendStatus(404)
+    }
 })
-
 
 //get soldier by company_id
 app.get('/company', (req, res) => {
@@ -205,7 +223,7 @@ app.patch('/:DODID/toggleadmin', async (req, res) => {
 })
 
 // add new soldier by unit registration code (deletes pre-existing soldier record with same dodid)
-app.post('/register', async (req, res) => {
+app.post('/registration', async (req, res) => {
     let regKey = req.body.registration_key;
     let company_id = await knex('company_data').select('id').where({'registration_key': regKey})
         .catch(err => {

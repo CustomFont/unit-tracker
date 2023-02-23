@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+import React, { useEffect, useState } from "react"
+import Container from 'react-bootstrap/Container'
+import Table from 'react-bootstrap/Table'
+import LogoutButton from './LogoutButton'
+import { useNavigate } from "react-router"
+import { Link } from 'react-router-dom';
+import Button from "react-bootstrap/esm/Button"
+
+export default function UpdateInfo () {
+
+=======
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -255,4 +267,5 @@ export default function UpdateInfo() {
         </Container>
         </>
    ) 
+>>>>>>> master
 }

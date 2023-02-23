@@ -98,17 +98,17 @@ export default function Registration() {
             is_leader
         } = form;
         const newErrors = {};
-        if (!DODID || DODID === '' || DODID.length !== 10 || typeof DODID !== 'number') newErrors.DODID = 'Please enter your DODID'
-        if (!SSN || SSN === '' || SSN.length !== 9 || typeof SSN !== 'number') newErrors.SSN = 'Please enter your SSN'
+        if (!DODID || DODID === '' || DODID.length !== 10 || typeof parseInt(DODID) !== 'number') newErrors.DODID = 'Please enter your DODID'
+        if (!SSN || SSN === '' || SSN.length !== 9 || typeof parseInt(SSN) !== 'number') newErrors.SSN = 'Please enter your SSN'
         if (!last_name || last_name === '') newErrors.last_name = 'Please enter your last name'
         if (!first_name || first_name === '') newErrors.first_name = 'Please enter your first name'
         if (!registration_key || registration_key === '') newErrors.registration_key = 'Enter a correct Registration Key'
         if (!mos || mos === '') newErrors.mos = 'Enter your MOS'
         if (!DOB || DOB === '') newErrors.DOB = 'Enter your date of birth'
-        if (!weight || weight === 0 || typeof weight !== 'number') newErrors.weight = 'Enter your weight'
-        if (!height || height === 0 || typeof height !== 'number') newErrors.height = 'Enter your height'
+        if (!weight || weight === 0 || typeof parseInt(weight) !== 'number') newErrors.weight = 'Enter your weight'
+        if (!height || height === 0 || typeof parseInt(height) !== 'number') newErrors.height = 'Enter your height'
         if (!blood_type || blood_type === 0) newErrors.blood_type = 'Enter your blood type'
-        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof phone_number !== 'number') newErrors.phone_number = 'Enter your phone number'
+        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof parseInt(phone_number) !== 'number') newErrors.phone_number = 'Enter your phone number'
         if (!address || address === 0) newErrors.address = 'Enter your home address'
 
         return newErrors
@@ -215,7 +215,7 @@ export default function Registration() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Height</Form.Label>
-                    <Form.Control required type="text" placeholder="Height in Centimeters" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
+                    <Form.Control required type="text" placeholder="Height in Inches" name="height" value={userData.height} isInvalid={!!errors.height} onChange={(e) => [setUserData(userData => ({...userData, "height": e.target.value})), setField("height", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.height}</Form.Control.Feedback> 
                 </Form.Group>
                 <Form.Group className="mb-3">
