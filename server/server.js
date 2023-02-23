@@ -9,7 +9,6 @@ const config = require('./knexfile.js');
 const { response } = require('express');
 const knex = require('knex')(config['development']);
 
-
 app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
@@ -17,8 +16,6 @@ app.use(cors({
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 }));
-
-
 
 // establish session storage
 const KnexSessionStore = require('connect-session-knex')(session);
@@ -46,7 +43,7 @@ app.use(async (req, res, next) => {
         req.session.authenticated = true;
         next();
     } else if (req.path === '/units') {
-        req.session.authenticated = true;
+        //req.session.authenticated = true;
         next();
     } else if (req.path === '/users') { //remove this once done
         req.session.authenticated = true;
@@ -109,6 +106,7 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.status(200).send('Logout Successful')
 })
+
 // check credentials, leader gets 250, else 200
 app.get('/creds', (req, res) => {
     if (req.session.is_leader === true){
@@ -196,8 +194,8 @@ app.delete('/:DODID',(req, res) => {
     }
 })
 
-//get company_name
-app.get('/units', (req, res) => {
+//get company registration keys
+app.get('/regkeys', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
         if (Number.isInteger(company_id)){
@@ -207,6 +205,12 @@ app.get('/units', (req, res) => {
         res.sendStatus(404)
     }
 })
+
+//get unit
+app.get('/units', (req, res) => {
+        knex('company_data').select('id', 'company_name').then(data => res.send(data))
+        //res.sendStatus(404)
+    })
 
 //get soldier by company_id
 app.get('/company', (req, res) => {

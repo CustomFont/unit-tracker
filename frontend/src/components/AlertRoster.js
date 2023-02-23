@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
-import Button from "react-bootstrap/esm/Button"
+import Button from "react-bootstrap/Button"
 
 export default function AlertRoster () {
     const [list, setList] = useState([])
@@ -60,6 +60,7 @@ export default function AlertRoster () {
             return button
         }
     }
+
     const renderHelper = () => {
         if(searchInput === '') {
             return list.map(data => {

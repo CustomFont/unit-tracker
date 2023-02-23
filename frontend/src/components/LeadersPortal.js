@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/esm/Button"
+import Button from "react-bootstrap/Button"
 
 export default function LeadersPortal () {
     const [list, setList] = useState([])
@@ -29,7 +29,7 @@ export default function LeadersPortal () {
     }, [searchInput])
     
     useEffect(() => {
-        fetch('http://localhost:8080/units', { credentials: 'include' })
+        fetch('http://localhost:8080/regkeys', { credentials: 'include' })
             .then((res) => res.json())
             .then(data => setRegKey(data[0].registration_key))
     }, [])

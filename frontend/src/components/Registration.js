@@ -6,14 +6,13 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function Registration() {
+    // eslint-disable-next-line no-unused-vars
     const [validated, setValidated] = useState(false);
     const [ errors, setErrors ] = useState({})
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const [ form, setForm ] = useState({})
 
     const [companies, setCompanies] = useState({})
@@ -65,7 +64,7 @@ export default function Registration() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/units', { credentials: 'include' })
+        fetch('http://localhost:8080/units')
             .then(response => response.json())
             .then(data => setCompanies(data))
     }, [])
@@ -82,34 +81,28 @@ export default function Registration() {
             SSN,
             last_name,
             first_name,
-            middle_initial,
-            rank,
-            company_id,
             registration_key,
             mos,
             DOB,
             weight,
             height,
-            hair_color,
-            eye_color,
             blood_type,
             phone_number,
-            address,
-            is_leader
+            address
         } = form;
         const newErrors = {};
-        if (!DODID || DODID === '' || DODID.length !== 10 || typeof parseInt(DODID) !== 'number') newErrors.DODID = 'Please enter your DODID'
-        if (!SSN || SSN === '' || SSN.length !== 9 || typeof parseInt(SSN) !== 'number') newErrors.SSN = 'Please enter your SSN'
+        if (!DODID || DODID === '' || DODID.length !== 10 || typeof DODID !== 'number') newErrors.DODID = 'Please enter your 10 digit DODID'
+        if (!SSN || SSN === '' || SSN.length !== 9 || typeof SSN !== 'number') newErrors.SSN = 'Please enter your 9 digit SSN'
         if (!last_name || last_name === '') newErrors.last_name = 'Please enter your last name'
         if (!first_name || first_name === '') newErrors.first_name = 'Please enter your first name'
-        if (!registration_key || registration_key === '') newErrors.registration_key = 'Enter a correct Registration Key'
-        if (!mos || mos === '') newErrors.mos = 'Enter your MOS'
-        if (!DOB || DOB === '') newErrors.DOB = 'Enter your date of birth'
-        if (!weight || weight === 0 || typeof parseInt(weight) !== 'number') newErrors.weight = 'Enter your weight'
-        if (!height || height === 0 || typeof parseInt(height) !== 'number') newErrors.height = 'Enter your height'
-        if (!blood_type || blood_type === 0) newErrors.blood_type = 'Enter your blood type'
-        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof parseInt(phone_number) !== 'number') newErrors.phone_number = 'Enter your phone number'
-        if (!address || address === 0) newErrors.address = 'Enter your home address'
+        if (!registration_key || registration_key === '') newErrors.registration_key = `Enter your organization's unique Registration Key`
+        if (!mos || mos === '') newErrors.mos = 'Please enter your MOS code'
+        if (!DOB || DOB === '') newErrors.DOB = 'Please select your date of birth'
+        if (!weight || weight === 0 || typeof weight !== 'number') newErrors.weight = 'Please enter your weight in lbs'
+        if (!height || height === 0 || typeof height !== 'number') newErrors.height = 'Please enter your height in centimeters'
+        if (!blood_type || blood_type === 0) newErrors.blood_type = 'Please enter your blood type'
+        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof phone_number !== 'number') newErrors.phone_number = 'Please enter your phone number ex. 0000000000'
+        if (!address || address === 0) newErrors.address = 'Please enter your current home or barracks address'
 
         return newErrors
     }
@@ -125,7 +118,7 @@ export default function Registration() {
         })
     }
 
-    
+
    return (
         <>
         <Container>
@@ -233,27 +226,28 @@ export default function Registration() {
                     <Form.Control required type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
                     <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+                
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button> 
 
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Success!</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Successfully Registered! Click close to return to the login screen.</Modal.Body>
-                    <Modal.Footer>
-                        <LinkContainer to='/'>
-                            <Button variant="secondary" type="button">
-                                Close
-                            </Button>
-                        </LinkContainer>
-                    </Modal.Footer>
-                </Modal>
-            </Form>
-                </Col>
-            </Row>
-        </Container>
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Success!</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Successfully Registered! Click close to return to the login screen.</Modal.Body>
+                                <Modal.Footer>
+                                    <LinkContainer to='/'>
+                                        <Button variant="secondary" type="button">
+                                            Close
+                                        </Button>
+                                    </LinkContainer>
+                                </Modal.Footer>
+                            </Modal>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
    ) 
 }
