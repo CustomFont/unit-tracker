@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import InputGroup from 'react-bootstrap/InputGroup';
 import LogoutButton from './LogoutButton';
 import { useNavigate } from 'react-router-dom';
 

@@ -8,12 +8,13 @@ import AlertRoster from './components/AlertRoster';
 import LeadersPortal from './components/LeadersPortal';
 import UpdateInfo from './components/UpdateInfo';
 import Confirm from './components/Confirm';
-import { RuxClassification } from '@astrouxds/rux-classification-marking/rux-classification-marking'
+import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css'
+import ClassificationBanner from '@mobdata/classification-banner';
 
 function App() {
   return (
     <>
-    <rux-classification-marking classification="unclassified" label=""></rux-classification-marking>
+        <ClassificationBanner classification="secret"/>
       <br />
       <div className="App">
         <Routes>
