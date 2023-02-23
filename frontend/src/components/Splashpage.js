@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Login from './Login';
 
-
 export default function Splashpage() {
     return (
         <Container fluid="md">

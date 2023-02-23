@@ -114,13 +114,16 @@ export default function UpdateInfo() {
                     </Button>
                     <LogoutButton />
                 </Col>
+
                 <Row>   
                     <Col>
                         <h1>Update Information</h1>
                     </Col>
                 </Row>
+
                 <br />
                 <br />
+                
                 <Row>
                     <Col xs={5} md={{ span: 4, offset: 4 }}>
                         <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -230,7 +233,7 @@ export default function UpdateInfo() {
                                     </LinkContainer>
                                 </Modal.Footer>
                             </Modal>
-                            
+
                         </Form>
                     </Col>
                 </Row>

@@ -245,7 +245,7 @@ export default function Registration() {
                                 <Form.Control type="text" placeholder="Address" name="address" value={userData.address} isInvalid={!!errors.address} onChange={(e) => [setUserData(userData => ({...userData, "address": e.target.value})), setField("address", e.target.value)]} />
                                 <Form.Control.Feedback type='invalid'>{errors.address}</Form.Control.Feedback> 
                             </Form.Group>
-                            
+
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
