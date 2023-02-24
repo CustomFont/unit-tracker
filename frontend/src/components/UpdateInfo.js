@@ -76,7 +76,7 @@ export default function UpdateInfo() {
         fetch('http://localhost:8080/units', { credentials: 'include' })
             .then(response => response.json())
             .then(data => setCompanies(data))
-        if(window.location.href === '/update'){
+        if(window.location.pathname === '/update'){
             fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
                 .then(response => response.json())
                 .then(jsonData =>  {
@@ -91,7 +91,6 @@ export default function UpdateInfo() {
                 .then(response => response.json())
                 .then(jsonData => {
                     let data = jsonData[0];
-                    console.log(data)
                     setNewUserData(newUserData => ({ ...newUserData, "company_id": data.company_id }))
                     setNewUserData(newUserData => ({ ...newUserData, "rank": data.rank }))
                     setUserData(jsonData)
