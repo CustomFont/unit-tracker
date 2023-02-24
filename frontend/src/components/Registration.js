@@ -91,17 +91,17 @@ export default function Registration() {
             address
         } = form;
         const newErrors = {};
-        if (!DODID || DODID === '' || DODID.length !== 10 || typeof DODID !== 'number') newErrors.DODID = 'Please enter your 10 digit DODID'
-        if (!SSN || SSN === '' || SSN.length !== 9 || typeof SSN !== 'number') newErrors.SSN = 'Please enter your 9 digit SSN'
+        if (!DODID || DODID === '' || DODID.length !== 10 || typeof parseInt(DODID) !== 'number') newErrors.DODID = 'Please enter your 10 digit DODID'
+        if (!SSN || SSN === '' || SSN.length !== 9 || typeof parseInt(SSN) !== 'number') newErrors.SSN = 'Please enter your 9 digit SSN'
         if (!last_name || last_name === '') newErrors.last_name = 'Please enter your last name'
         if (!first_name || first_name === '') newErrors.first_name = 'Please enter your first name'
         if (!registration_key || registration_key === '') newErrors.registration_key = `Enter your organization's unique Registration Key`
         if (!mos || mos === '') newErrors.mos = 'Please enter your MOS code'
         if (!DOB || DOB === '') newErrors.DOB = 'Please select your date of birth'
-        if (!weight || weight === 0 || typeof weight !== 'number') newErrors.weight = 'Please enter your weight in lbs'
-        if (!height || height === 0 || typeof height !== 'number') newErrors.height = 'Please enter your height in centimeters'
+        if (!weight || weight === 0 || typeof parseInt(weight) !== 'number') newErrors.weight = 'Please enter your weight in lbs'
+        if (!height || height === 0 || typeof parseInt(height) !== 'number') newErrors.height = 'Please enter your height in centimeters'
         if (!blood_type || blood_type === 0) newErrors.blood_type = 'Please enter your blood type'
-        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof phone_number !== 'number') newErrors.phone_number = 'Please enter your phone number ex. 0000000000'
+        if (!phone_number || phone_number === 0 || phone_number.length !== 10 || typeof parseInt(phone_number) !== 'number') newErrors.phone_number = 'Please enter your phone number ex. 0000000000'
         if (!address || address === 0) newErrors.address = 'Please enter your current home or barracks address'
 
         return newErrors
