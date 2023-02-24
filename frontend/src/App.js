@@ -7,7 +7,6 @@ import Splashpage from './components/Splashpage';
 import AlertRoster from './components/AlertRoster';
 import LeadersPortal from './components/LeadersPortal';
 import UpdateInfo from './components/UpdateInfo';
-import Confirm from './components/Confirm';
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
           <Route path='/registration' element={<Registration />} />
           <Route path='/alertroster' element={<AlertRoster />} />
           <Route path='/leadersportal' element={<LeadersPortal />} />
-          <Route path='/confirm/:DODID' element={<Confirm />} />
+          <Route path='/update/:DODID' element={<UpdateInfo />} />
         </Routes>
       </div>
     </>

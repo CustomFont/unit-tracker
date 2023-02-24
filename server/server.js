@@ -122,8 +122,15 @@ app.get('/users', async (req, res, next) => {
 })
 
 //get specific user by DODID
-app.get('/soldier-record', async (req, res, next) => {
+app.get('/soldier-record', (req, res, next) => {
     let DODID = req.session.DODID;
+    if (Number.isInteger(DODID)) {
+        knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
+    }
+})
+
+app.get('/soldier-record/:DODID', (req, res, next) => {
+    let DODID = req.params.DODID;
     if (Number.isInteger(DODID)) {
         knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
     }
