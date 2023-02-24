@@ -1,9 +1,19 @@
-.App {
-  text-align: center;
+html {
+  background-color: lightgray
 }
 
-.cui {
-  background-color: #502b85	
+.App {
+  text-align: center;
+  background-color: lightgray
+}
+
+.classification {
+  background-color: #502b85;
+  text-align: center;
+  top: auto;
+  width: 100%;
+  position: fixed;
+  color: white;
 }
 
 .App-header {

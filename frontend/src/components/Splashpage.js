@@ -6,7 +6,7 @@ import Login from './Login';
 
 export default function Splashpage() {
     return (
-        <Container fluid="md">
+        <Container fluid>
             <Row>
                 <Col><h1>Unit Tracker</h1></Col>
             </Row>
