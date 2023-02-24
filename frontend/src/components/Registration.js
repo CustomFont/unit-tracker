@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function Registration() {
     const [validated, setValidated] = useState(false);
@@ -128,14 +127,14 @@ export default function Registration() {
 
    return (
         <>
-        <Container>
+        <Container fluid="md">
             <Row>
                 <Col><h1>Registration</h1></Col>
             </Row>
             <br />
             <br />
             <Row>
-                <Col xs={5} md={{ span: 4, offset: 4 }}>
+                <Col md={{ span: 4, offset: 4 }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Last Name</Form.Label>
