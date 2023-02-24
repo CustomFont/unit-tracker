@@ -5,6 +5,7 @@ import LogoutButton from './LogoutButton'
 import { useNavigate } from "react-router"
 import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button"
+import UpdateInfo from "./UpdateInfo"
 
 export default function LeadersPortal () {
     const [list, setList] = useState([])
@@ -67,7 +68,7 @@ export default function LeadersPortal () {
                     <tr key={data.DODID}>
                         <td>{data.DODID}</td>
                         <td>{data.rank}</td>
-                        <td><Link to={`/update/${data.DODID}`}>{data.last_name}</Link></td>
+                        <td><Link to={`http://localhost:3000/update/${data.DODID}`}>{data.last_name}</Link></td>
                         <td>{data.first_name}</td>
                         <td>{data.mos}</td>
                         <td>{data.phone_number.toString().replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}</td>
@@ -83,7 +84,7 @@ export default function LeadersPortal () {
                         <tr key={data.DODID}>
                             <td>{data.DODID}</td>
                             <td>{data.rank}</td>
-                            <td><Link to={`/update/${data.DODID}`}>{data.last_name}</Link></td>
+                            <td><Link to={`http://localhost:3000/update/${data.DODID}`}>{data.last_name}</Link></td>
                             <td>{data.first_name}</td>
                             <td>{data.mos}</td>
                             <td>{data.phone_number.toString().replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}</td>

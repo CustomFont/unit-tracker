@@ -15,7 +15,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/' element={<Splashpage />} />
-          <Route path='/update' element={<UpdateInfo />} />
+          <Route path='/update/:DODID' element={<UpdateInfo />} />
           <Route path='/registration' element={<Registration />} />
           <Route path='/alertroster' element={<AlertRoster />} />
           <Route path='/leadersportal' element={<LeadersPortal />} />

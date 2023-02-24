@@ -39,11 +39,11 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/register') {
-        req.session.authenticated = true;
+    } else if (req.path === '/registration') {
+        req.session.authenticated = false;
         next();
     } else if (req.path === '/units') {
-        //req.session.authenticated = true;
+        req.session.authenticated = true;
         next();
     } else if (req.path === '/users') { //remove this once done
         req.session.authenticated = true;
