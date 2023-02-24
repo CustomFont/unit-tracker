@@ -39,20 +39,8 @@ app.use(async (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         req.session.authenticated = false;
         next();
-    } else if (req.path === '/register') {
-        req.session.authenticated = true;
-        next();
     } else if (req.path === '/units') {
         //req.session.authenticated = true;
-        next();
-    } else if (req.path === '/users') { //remove this once done
-        req.session.authenticated = true;
-        next();
-    } else if (req.path === '/update') { //remove this once done
-        req.session.authenticated = true;
-        next();
-    } else if (req.path === '/confirm') { //remove this once done
-        req.session.authenticated = true;
         next();
     } else {
         let authenticationStatus = req.session.authenticated;
@@ -122,10 +110,17 @@ app.get('/users', async (req, res, next) => {
 })
 
 //get specific user by DODID
-app.get('/soldier-record', async (req, res, next) => {
+app.get('/soldier-record', (req, res, next) => {
     let DODID = req.session.DODID;
     if (Number.isInteger(DODID)) {
         knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
+    }
+})
+
+app.get('/soldier-record/:DODID', async (req, res, next) => {
+    let DODID = req.params.DODID;
+    if (Number.isInteger(parseInt(DODID))) {
+        await knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
     }
 })
 
