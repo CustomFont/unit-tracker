@@ -62,6 +62,7 @@ export default function AlertRoster () {
             return button
         }
     }
+
     const renderHelper = () => {
         if(searchInput === '') {
             return list.map(data => {
