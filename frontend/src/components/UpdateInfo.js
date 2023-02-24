@@ -53,7 +53,7 @@ export default function UpdateInfo() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
-        } else if (window.location.href === 'update'){
+        } else if (window.location.pathname === '/update'){
             fetch('http://localhost:8080/update', init)
                 .then(response => response.json())
                 .then(data => {
