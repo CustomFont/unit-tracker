@@ -121,14 +121,14 @@ export default function Registration() {
 
    return (
         <>
-        <Container>
+        <Container fluid="md">
             <Row>
                 <Col><h1>Registration</h1></Col>
             </Row>
             <br />
             <br />
             <Row>
-                <Col xs={5} md={{ span: 4, offset: 4 }}>
+                <Col md={{ span: 4, offset: 4 }}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Last Name</Form.Label>
