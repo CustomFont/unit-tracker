@@ -181,7 +181,7 @@ export default function UpdateInfo() {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Date of Birth</Form.Label>
-                               <Form.Control disabled type="text" placeholder={DOB.toDateString()} name="dob" value={newUserData.DOB} />
+                               <Form.Control disabled type="text" placeholder={userData[0].DOB.toString()} name="dob" value={newUserData.DOB} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Weight</Form.Label>
