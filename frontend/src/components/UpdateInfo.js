@@ -53,8 +53,16 @@ export default function UpdateInfo() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
-        } else {
+        } else if (window.location.href === 'update'){
             fetch('http://localhost:8080/update', init)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success!', data)
+                })
+            alert('Submitted!')
+            window.location.href = '/'
+        } else {
+            fetch(`http://localhost:8080/update/${userData[0].DODID}`, init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
@@ -68,15 +76,27 @@ export default function UpdateInfo() {
         fetch('http://localhost:8080/units', { credentials: 'include' })
             .then(response => response.json())
             .then(data => setCompanies(data))
-        fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
-            .then(response => response.json())
-            .then(jsonData =>  {
-                let data = jsonData[0];
-                setNewUserData(newUserData => ({ ...newUserData, "company_id": data.company_id }))
-                setNewUserData(newUserData => ({...newUserData, "rank": data.rank}))
-                setUserData(jsonData)
-                return
-            })
+        if(window.location.pathname === '/update'){
+            fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
+                .then(response => response.json())
+                .then(jsonData =>  {
+                    let data = jsonData[0];
+                    setNewUserData(newUserData => ({ ...newUserData, "company_id": data.company_id }))
+                    setNewUserData(newUserData => ({...newUserData, "rank": data.rank}))
+                    setUserData(jsonData)
+                    return
+                })
+        } else {
+            fetch(`http://localhost:8080/soldier-record/${window.location.pathname.substring(8)}`, { credentials: 'include' })
+                .then(response => response.json())
+                .then(jsonData => {
+                    let data = jsonData[0];
+                    setNewUserData(newUserData => ({ ...newUserData, "company_id": data.company_id }))
+                    setNewUserData(newUserData => ({ ...newUserData, "rank": data.rank }))
+                    setUserData(jsonData)
+                    return
+                })
+        }
     }, [])
     
     let arrOfCompanies = []
