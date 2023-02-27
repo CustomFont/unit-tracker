@@ -30,7 +30,7 @@ app.use(session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 300000, sameSite: 'strict' },
+    cookie: { secure: false, maxAge: 300000, sameSite: 'lax' },
     store
 }))
 
@@ -114,7 +114,7 @@ app.get('/users', async (req, res, next) => {
 //get specific user by DODID
 app.get('/soldier-record', (req, res, next) => {
     let DODID = req.session.DODID;
-    if (Number.isInteger(DODID)) {
+    if (Number.isInteger(parseInt(DODID))) {
         knex('soldier_data').select('*').where({ "DODID": DODID }).then(data => res.status(200).send(data))
     }
 })
@@ -128,7 +128,7 @@ app.get('/soldier-record/:DODID', async (req, res, next) => {
 
 app.patch('/update', (req, res) => {
     let DODID = req.session.DODID;
-    if (Number.isInteger(DODID)) {
+    if (Number.isInteger(parseInt(DODID))) {
         knex('soldier_data').update(req.body).where({ "DODID": DODID }).then(data => res.sendStatus(201))
     } else {
         res.sendStatus(400)
@@ -139,7 +139,7 @@ app.patch('/update', (req, res) => {
 app.get('/alertroster', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
-        if (Number.isInteger(company_id)){
+        if (Number.isInteger(parseInt(company_id))){
             knex('soldier_data').where({ "company_id": company_id }).then(data => res.send(data))
         }
     } else {
@@ -151,7 +151,7 @@ app.get('/alertroster', (req, res) => {
 app.get('/leadersportal', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
-        if (Number.isInteger(company_id)){
+        if (Number.isInteger(parseInt(company_id))){
             knex('soldier_data').orderBy('last_name', 'asc').where({ "company_id": company_id }).then(data => res.send(data))
         }
     } else {
@@ -172,7 +172,7 @@ app.get('/users/:company_id', (req, res) => {
 //patch soldier data
 app.patch('/update/:DODID', (req, res) => {
     let idParam = parseInt(req.params.DODID);
-    if(Number.isInteger(idParam)) {
+    if (Number.isInteger(idParam)) {
         knex('soldier_data').select('DODID').where({DODID: idParam})
         .update(req.body).then(data => res.status(201).send('User profile updated'))
     } else {
@@ -183,7 +183,7 @@ app.patch('/update/:DODID', (req, res) => {
 //delete soldier record
 app.delete('/:DODID',(req, res) => {
     let idParam = parseInt(req.params.DODID);
-    if(Number.isInteger(idParam)) {
+    if (Number.isInteger(idParam)) {
         knex('soldier_data').select('DODID').where({DODID: idParam})
         .delete().then(data => res.status(204).send('User profile has been deleted'))
     } else {
@@ -195,7 +195,7 @@ app.delete('/:DODID',(req, res) => {
 app.get('/regkeys', (req, res) => {
     if(req.session.company_id){
         let company_id = req.session.company_id;
-        if (Number.isInteger(company_id)){
+        if (Number.isInteger(parseInt(company_id))){
             knex('company_data').select('registration_key').where({ "id": company_id }).then(data => res.send(data))
         }
     } else {
