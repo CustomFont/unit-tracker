@@ -53,7 +53,7 @@ export default function Registration() {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
-            fetch('http://localhost:8080/register', init)
+            fetch('http://localhost:8080/registration', init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
