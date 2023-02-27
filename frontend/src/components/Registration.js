@@ -53,18 +53,18 @@ export default function Registration() {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
-            fetch('http://localhost:8080/registration', init)
+            fetch('https://142.93.182.171/registration', init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
                 })
             alert('Submitted!')
-            window.location.href = '/'
+//            window.location.href = '/'
         }
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/units')
+        fetch('https://142.93.182.171/units')
             .then(response => response.json())
             .then(data => setCompanies(data))
     }, [])

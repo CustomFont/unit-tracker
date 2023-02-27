@@ -15,7 +15,7 @@ export default function AlertRoster () {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:8080/alertroster', { credentials: 'include' }) 
+        fetch('https://142.93.182.171/alertroster', { credentials: 'include' }) 
             .then((res) => res.json())
             .then(data => setList(data))
     }, [])
@@ -47,7 +47,7 @@ export default function AlertRoster () {
         let button = leaderPortalButton;
         
         if (button === ""){
-            fetch('http://localhost:8080/creds', {credentials: "include"})
+            fetch('https://142.93.182.171/creds', {credentials: "include"})
                 .then(res => {
                     if(res.status === 250){
                         setLeaderPortalButton(<Button variant="dark" onClick={() => {navigate('/leadersportal')}}>Leader's Portal</Button>)

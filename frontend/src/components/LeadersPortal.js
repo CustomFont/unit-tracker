@@ -14,7 +14,7 @@ export default function LeadersPortal () {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:8080/leadersportal', { credentials: 'include' }) 
+        fetch('https://142.93.182.171/leadersportal', { credentials: 'include' }) 
             .then((res) => res.json())
             .then(data => setList(data))
     }, [])
@@ -29,7 +29,7 @@ export default function LeadersPortal () {
     }, [searchInput])
     
     useEffect(() => {
-        fetch('http://localhost:8080/regkeys', { credentials: 'include' })
+        fetch('https://142.93.182.171/regkeys', { credentials: 'include' })
             .then((res) => res.json())
             .then(data => setRegKey(data[0].registration_key))
     }, [])
@@ -53,8 +53,13 @@ export default function LeadersPortal () {
             "Do you really want to delete this Soldier?"
             )
             if (confirmBox === true) {
-                fetch(`http://localhost:8080/${e.target.id}`, { credentials: 'include', method: 'DELETE' })
-                setList(list.filter(item => item.DODID !== parseInt(e.target.id)))
+                fetch(`https://142.93.182.171/user/${e.target.id}`, { credentials: 'include', method: 'DELETE' })
+		    .then(() => {
+			fetch('https://142.93.182.171/leadersportal', { credentials: 'include' }) 
+			    .then((res) => res.json())
+			    .then(data => setList(data))
+		    })
+               // setList(list.filter(item => item.DODID !== parseInt(e.target.id)))
             } else {
                 return;
             }

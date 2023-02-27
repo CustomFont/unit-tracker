@@ -13,7 +13,6 @@ app.use(express.json());
 app.set('trust proxy', 1) // trust first proxy
 app.use(cors({
     credentials: true, 
-    origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 }));
 
@@ -181,7 +180,7 @@ app.patch('/update/:DODID', (req, res) => {
 })
 
 //delete soldier record
-app.delete('/:DODID',(req, res) => {
+app.delete('/user/:DODID',(req, res) => {
     let idParam = parseInt(req.params.DODID);
     if (Number.isInteger(idParam)) {
         knex('soldier_data').select('DODID').where({DODID: idParam})

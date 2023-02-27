@@ -59,7 +59,7 @@ export default function UpdateInfo() {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else if (window.location.pathname === '/update'){
-            fetch('http://localhost:8080/update', init)
+            fetch('https://142.93.182.171/update', init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
@@ -67,7 +67,7 @@ export default function UpdateInfo() {
             alert('Submitted!')
             window.location.href = '/'
         } else {
-            fetch(`http://localhost:8080/update/${userData[0].DODID}`, init)
+            fetch(`https://142.93.182.171/update/${userData[0].DODID}`, init)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data)
@@ -78,11 +78,11 @@ export default function UpdateInfo() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/units', { credentials: 'include' })
+        fetch('https://142.93.182.171/units', { credentials: 'include' })
             .then(response => response.json())
             .then(data => setCompanies(data))
         if(window.location.pathname === '/update'){
-            fetch(`http://localhost:8080/soldier-record`, { credentials: 'include' })
+            fetch(`https://142.93.182.171/soldier-record`, { credentials: 'include' })
                 .then(response => response.json())
                 .then(jsonData =>  {
                     let data = jsonData[0];
@@ -92,7 +92,7 @@ export default function UpdateInfo() {
                     return
                 })
         } else {
-            fetch(`http://localhost:8080/soldier-record/${window.location.pathname.substring(8)}`, { credentials: 'include' })
+            fetch(`https://142.93.182.171/soldier-record/${window.location.pathname.substring(8)}`, { credentials: 'include' })
                 .then(response => response.json())
                 .then(jsonData => {
                     let data = jsonData[0];

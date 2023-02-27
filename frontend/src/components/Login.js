@@ -36,7 +36,7 @@ export default function Login() {
         e.preventDefault()
         if (errors.DODID === false && errors.SSN === false) {
             let stringifiedJSON = JSON.stringify(userLogin);
-            fetch('http://localhost:8080/login', {
+            fetch('https://142.93.182.171/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
