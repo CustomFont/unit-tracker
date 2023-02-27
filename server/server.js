@@ -42,7 +42,9 @@ app.use(async (req, res, next) => {
     } else if (req.path === '/units') {
         //req.session.authenticated = true;
         next();
-    } else {
+    } else if (req.path === '/registration') {
+        next();
+    } else{
         let authenticationStatus = req.session.authenticated;
         if(authenticationStatus){
             next();
