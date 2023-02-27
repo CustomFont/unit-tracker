@@ -59,7 +59,7 @@ export default function Registration() {
                     console.log('Success!', data)
                 })
             alert('Submitted!')
-//            window.location.href = '/'
+            window.location.href = '/'
         }
     }
 
